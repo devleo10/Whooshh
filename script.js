@@ -34,7 +34,7 @@ const weather = {
 	  document.querySelector(".temp").innerText = temp + "°C";
 	  document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%";
 	  document.querySelector(".wind").innerText = "Wind Speed: " + speed + "km/h";
-	  document.body.style.backgroundImage="url('https://source.unsplash.com/random/1600x900/?"+ name + "')"
+	  document.body.style.backgroundImage="url('https://source.unsplash.com/random/1600x900/?"+ name + '")"
 
 	},
 	
