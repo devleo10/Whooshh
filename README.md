@@ -38,9 +38,6 @@ A simple and responsive weather application built using **HTML, CSS, and JavaScr
 
 Check out the deployed version: [Whooshh on Vercel](https://weather-app-leoakash.vercel.app/)
 
-## Screenshots
-(Add screenshots of your application here)
-
 ## API Used
 
 This app uses the **[OpenWeatherMap API](https://openweathermap.org/api)** to fetch weather data.
