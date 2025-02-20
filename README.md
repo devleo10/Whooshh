@@ -20,11 +20,11 @@ A simple and responsive weather application built using **HTML, CSS, and JavaScr
 
 1. Clone the repository:
    ```bash
-   git clone https://github.com/devleo10/Weather-app.git
+   git clone https://github.com/devleo10/Whooshh.git
    ```
 2. Navigate to the project folder:
    ```bash
-   cd Weather-app
+   cd Whooshh
    ```
 3. Open `index.html` in a browser to run the app.
 
@@ -37,6 +37,9 @@ A simple and responsive weather application built using **HTML, CSS, and JavaScr
 ## Live Demo
 
 Check out the deployed version: [Whooshh on Vercel](https://weather-app-leoakash.vercel.app/)
+
+## Screenshots
+(Add screenshots of your application here)
 
 ## API Used
 
