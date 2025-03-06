@@ -7,67 +7,340 @@ body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
     font-family: 'Roboto Slab', serif;
-    background: #222;
-    background-image: url('https://source.unsplash.com/random/1600x900/?landscape');
+    background: #0f0c29; 
+    background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e), 
+                      url('https://source.unsplash.com/1600x900/?technology,futuristic');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    overflow: hidden;
 }
+
+
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/circuit-board.png');
+    opacity: 0.15;
+    z-index: -1;
+}
+
+body::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 20%, transparent 50%);
+    background-size: 200px 200px;
+    animation: moveParticles 12s infinite linear;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+
+@keyframes moveParticles {
+    0% {
+        transform: translateX(0px) translateY(0px);
+    }
+    50% {
+        transform: translateX(-30px) translateY(-30px);
+    }
+    100% {
+        transform: translateX(0px) translateY(0px);
+    }
+}
+
 .box {
     max-width: 400px;
     background: #000000d0;
-    color:white ;
+    color: white;
     padding: 2.5em;
     border-radius: 20px;
     width: 100%;
     margin-bottom: 8vh;
-    
+    border: 2px solid rgba(128, 0, 128, 0.5);
+    box-shadow: 0 0 15px rgba(128, 0, 128, 0.8);
+    animation: glowEffect 1.5s infinite alternate;
 }
-.flex{
+
+@keyframes glowEffect {
+    from {
+        box-shadow: 0 0 10px rgba(128, 0, 128, 0.6);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(128, 0, 128, 1);
+    }
+}
+
+
+.flex {
     display: flex;
     align-items: center;
     margin-top: -3vh;
+}
 
-}
-.description{
+.description {
     text-transform: capitalize;
-   
 }
-.search{
+
+.search {
     display: flex;
     align-items: center;
     justify-content: center;
 }
-.humidity{
+
+.humidity {
     margin-bottom: 0.8em;
 }
-img{
-    height:10vh;
+
+img {
+    height: 10vh;
     width: 5lh;
     margin-left: -30px;
 }
-button{
+
+
+button {
     margin-right: 3em;
     border-radius: 50%;
-    border:none;
+    border: none;
     outline: none;
     height: 2.5em;
     width: 2.5em;
     background-color: #7c7c7c2e;
-    color:white;
+    color: white;
     transition: 0.2s ease-in-out;
-
 }
-button:hover{
+
+button:hover {
     background-color: #7c7c7c6b;
     cursor: pointer;
 }
-input.search-bar{
-    width:70%;
-    border:none;
+
+
+input.search-bar {
+    width: 70%;
+    border: none;
     outline: none;
-    padding:0.5em ;
-    border-radius:20px;
+    padding: 0.5em;
+    border-radius: 20px;
     background-color: #7c7c7c2e;
-    color:white;
+    color: white;
     font-family: inherit;
     font-size: 100%;
     margin-right: auto;
+}
+
+
+
+
+
+
+/* General Styling */
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto Slab', serif;
+    background: #0f0c29; /* Fallback color */
+    background-image: linear-gradient(to right, #0f0c29, #302b63, #24243e), 
+                      url('https://source.unsplash.com/1600x900/?technology,futuristic');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Background Grid Overlay */
+body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('https://www.transparenttextures.com/patterns/circuit-board.png');
+    opacity: 0.15;
+    z-index: -1;
+}
+
+/* Floating Animated Lights */
+body::after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 20%, transparent 50%);
+    background-size: 200px 200px;
+    animation: moveParticles 12s infinite linear;
+    opacity: 0.3;
+    z-index: -1;
+}
+
+/* Floating Particle Animation */
+@keyframes moveParticles {
+    0% {
+        transform: translateX(0px) translateY(0px);
+    }
+    50% {
+        transform: translateX(-30px) translateY(-30px);
+    }
+    100% {
+        transform: translateX(0px) translateY(0px);
+    }
+}
+
+/* Weather Box */
+.box {
+    max-width: 400px;
+    background: #000000d0;
+    color: white;
+    padding: 2.5em;
+    border-radius: 20px;
+    width: 100%;
+    margin-bottom: 8vh;
+
+    /* Glowing Purple Border */
+    border: 2px solid rgba(128, 0, 128, 0.5);
+    box-shadow: 0 0 15px rgba(128, 0, 128, 0.8);
+
+    /* Animation for Glow */
+    animation: glowEffect 1.5s infinite alternate;
+}
+
+@keyframes glowEffect {
+    from {
+        box-shadow: 0 0 10px rgba(128, 0, 128, 0.6);
+    }
+    to {
+        box-shadow: 0 0 20px rgba(128, 0, 128, 1);
+    }
+}
+
+
+.flex {
+    display: flex;
+    align-items: center;
+    margin-top: -3vh;
+}
+
+.description {
+    text-transform: capitalize;
+}
+
+
+.search {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.humidity {
+    margin-bottom: 0.8em;
+}
+
+img {
+    height: 10vh;
+    width: 5lh;
+    margin-left: -30px;
+}
+
+
+button {
+    margin-right: 3em;
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    height: 2.5em;
+    width: 2.5em;
+    background-color: #7c7c7c2e;
+    color: white;
+    transition: 0.2s ease-in-out;
+}
+
+button:hover {
+    background-color: #7c7c7c6b;
+    cursor: pointer;
+}
+
+/* Input Field */
+input.search-bar {
+    width: 70%;
+    border: none;
+    outline: none;
+    padding: 0.5em;
+    border-radius: 20px;
+    background-color: #7c7c7c2e;
+    color: white;
+    font-family: inherit;
+    font-size: 100%;
+    margin-right: auto;
+}
+
+@media (max-width: 768px) {
+    .box {
+        max-width: 350px;
+        padding: 2em;
+    }
+
+    h2.city {
+        font-size: 1.5em;
+    }
+
+    h1.temp {
+        font-size: 2.5em;
+    }
+
+    .search-bar {
+        width: 60%;
+    }
+
+    img {
+        height: 8vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .box {
+        max-width: 90%;
+        padding: 1.5em;
+    }
+
+    h2.city {
+        font-size: 1.2em;
+    }
+
+    h1.temp {
+        font-size: 2em;
+    }
+
+    .search {
+        flex-direction: column;
+    }
+
+    .search-bar {
+        width: 80%;
+        font-size: 0.9em;
+        padding: 0.4em;
+    }
+
+    button {
+        margin-top: 0.5em;
+        height: 2em;
+        width: 2em;
+    }
+
+    img {
+        height: 7vh;
+    }
 }
