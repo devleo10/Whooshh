@@ -5,11 +5,14 @@ body {
     align-items: center;
     height: 100vh;
     margin: 0;
-    font-family: 'Poppins', sans-serif;
-    font-family: 'Roboto Slab', serif;
+    font-family: 'Raleway', sans-serif;
+
     background: #222;
     background-image: url('https://source.unsplash.com/random/1600x900/?landscape');
 }
+
+
+
 .box {
     max-width: 400px;
     background: #000000d0;
