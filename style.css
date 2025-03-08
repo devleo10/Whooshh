@@ -1,3 +1,4 @@
+/* General Styles */
 body {
     display: flex;
     flex-direction: column;
@@ -9,65 +10,150 @@ body {
     font-family: 'Roboto Slab', serif;
     background: #222;
     background-image: url('https://source.unsplash.com/random/1600x900/?landscape');
+    background-size: cover;
+    background-position: center;
+    transition: background 0.5s ease-in-out;
 }
+
+/* Weather Box */
 .box {
     max-width: 400px;
-    background: #000000d0;
-    color:white ;
+    background: rgba(0, 0, 0, 0.85);
+    color: white;
     padding: 2.5em;
     border-radius: 20px;
     width: 100%;
     margin-bottom: 8vh;
-    
+    box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+    transition: transform 0.3s ease-in-out;
 }
-.flex{
+
+/* Hover effect on result box */
+.box:hover {
+    transform: scale(1.05);
+}
+
+/* Flexbox for aligning items */
+.flex {
     display: flex;
     align-items: center;
     margin-top: -3vh;
+}
 
-}
-.description{
+.description {
     text-transform: capitalize;
-   
 }
-.search{
+
+/* Search Bar and Button */
+.search {
     display: flex;
     align-items: center;
     justify-content: center;
+    gap: 10px;
+    width: 100%;
 }
-.humidity{
+
+input.search-bar {
+    width: 70%;
+    border: none;
+    outline: none;
+    padding: 0.6em;
+    border-radius: 20px;
+    background-color: rgba(124, 124, 124, 0.2);
+    color: white;
+    font-family: inherit;
+    font-size: 16px;
+    transition: background 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Search bar hover effect */
+input.search-bar:hover {
+    background-color: rgba(124, 124, 124, 0.4);
+    box-shadow: 0px 0px 5px rgba(255, 255, 255, 0.3);
+}
+
+/* Button styling */
+button {
+    border-radius: 50%;
+    border: none;
+    outline: none;
+    height: 2.8em;
+    width: 2.8em;
+    background-color: rgba(124, 124, 124, 0.5);
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s ease-in-out, transform 0.2s ease-in-out;
+}
+
+/* Button hover effect */
+button:hover {
+    background-color: rgba(124, 124, 124, 0.7);
+    transform: scale(1.1);
+}
+
+/* Weather details */
+.humidity {
     margin-bottom: 0.8em;
 }
-img{
-    height:10vh;
+
+img {
+    height: 10vh;
     width: 5lh;
     margin-left: -30px;
 }
-button{
-    margin-right: 3em;
-    border-radius: 50%;
-    border:none;
-    outline: none;
-    height: 2.5em;
-    width: 2.5em;
-    background-color: #7c7c7c2e;
-    color:white;
-    transition: 0.2s ease-in-out;
 
+/* Responsive Design */
+@media (max-width: 600px) {
+    body {
+        height: auto;
+        padding: 20px;
+    }
+
+    .box {
+        max-width: 90%;
+        padding: 2em;
+    }
+
+    input.search-bar {
+        width: 80%;
+    }
+
+    button {
+        height: 2.5em;
+        width: 2.5em;
+    }
 }
-button:hover{
-    background-color: #7c7c7c6b;
+.dark-mode {
+  background-color: #1e1e1e !important;
+  color: white !important;
+}
+
+.dark-mode .box {
+  background: #5898e1;
+}
+
+.dark-mode button {
+  background-color: #b3d5fc;
+}
+
+.dark-mode input.search-bar {
+  background-color: #b3d5fc;
+}
+.theme-toggle {
+    position: absolute;
+    top: 15px;
+    right: 20px;
+    padding: 10px 15px;
+    background-color: #444;
+    color: white;
+    border: none;
+    border-radius: 20px;
     cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s ease-in-out;
 }
-input.search-bar{
-    width:70%;
-    border:none;
-    outline: none;
-    padding:0.5em ;
-    border-radius:20px;
-    background-color: #7c7c7c2e;
-    color:white;
-    font-family: inherit;
-    font-size: 100%;
-    margin-right: auto;
+
+.theme-toggle:hover {
+    background-color: #b3d5fc;
 }
