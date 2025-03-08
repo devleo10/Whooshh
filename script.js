@@ -88,6 +88,4 @@ document.querySelector(".search-bar").addEventListener("keyup", function(event) 
 
 // Initially fetch weather data for the city "Kolkata" when the script is loaded
 weather.fetchWeather("Kolkata");
-document.querySelector(".theme-toggle").addEventListener("click", () => {
-  document.body.classList.toggle("dark-mode");
-});
+

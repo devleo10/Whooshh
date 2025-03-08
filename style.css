@@ -31,6 +31,7 @@ body {
 /* Hover effect on result box */
 .box:hover {
     transform: scale(1.05);
+    box-shadow: 0px 4px 15px rgba(255, 255, 255, 0.2);
 }
 
 /* Flexbox for aligning items */
@@ -57,7 +58,7 @@ input.search-bar {
     width: 70%;
     border: none;
     outline: none;
-    padding: 0.6em;
+    padding: 0.5em;
     border-radius: 20px;
     background-color: rgba(124, 124, 124, 0.2);
     color: white;
@@ -77,8 +78,8 @@ button {
     border-radius: 50%;
     border: none;
     outline: none;
-    height: 2.8em;
-    width: 2.8em;
+    height: 2.1em;
+    width: 2.1em;
     background-color: rgba(124, 124, 124, 0.5);
     color: white;
     font-size: 16px;
@@ -123,37 +124,4 @@ img {
         height: 2.5em;
         width: 2.5em;
     }
-}
-.dark-mode {
-  background-color: #1e1e1e !important;
-  color: white !important;
-}
-
-.dark-mode .box {
-  background: #5898e1;
-}
-
-.dark-mode button {
-  background-color: #b3d5fc;
-}
-
-.dark-mode input.search-bar {
-  background-color: #b3d5fc;
-}
-.theme-toggle {
-    position: absolute;
-    top: 15px;
-    right: 20px;
-    padding: 10px 15px;
-    background-color: #444;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    cursor: pointer;
-    font-size: 14px;
-    transition: background 0.3s ease-in-out;
-}
-
-.theme-toggle:hover {
-    background-color: #b3d5fc;
 }
