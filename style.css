@@ -39,9 +39,10 @@ body {
     margin-bottom: 0.8em;
 }
 img{
-    height:10vh;
-    width: 5lh;
-    margin-left: -30px;
+    height: 80px;
+    width: 80px;
+    margin-left: 0;
+    object-fit: contain;
 }
 button{
     margin-right: 3em;
@@ -70,4 +71,14 @@ input.search-bar{
     font-family: inherit;
     font-size: 100%;
     margin-right: auto;
+}
+@media (max-width: 480px) {
+    .box {
+        padding: 1.5em;
+        margin: 20px;
+    }
+    img {
+        height: 60px;
+        width: 60px;
+    }
 }

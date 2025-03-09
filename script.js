@@ -29,7 +29,7 @@ const weather = {
 
     // Update HTML elements with the extracted weather information
     document.querySelector(".city").innerText = "Weather in " + name;
-    document.querySelector(".icon").src = "https://openweathermap.org/img/wn/" + icon + ".png";
+    document.querySelector(".icon").src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
     document.querySelector(".description").innerText = description;
     document.querySelector(".temp").innerText = temp + "°C";
     document.querySelector(".humidity").innerText = "Humidity: " + humidity + "%";
