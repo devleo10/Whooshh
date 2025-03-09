@@ -70,9 +70,36 @@ const weather = {
     console.log("Search button clicked");
     // Call the fetchWeather method with the value entered in the search bar
     this.fetchWeather(document.querySelector(".search-bar").value);
-  }
+  },
+  fetchWeatherByCoords: function(lat, lon) {
+    fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${this.apiKey}`
+    )
+      .then(response => response.json())
+      .then(data => this.displayWeather(data))
+      .catch(error => {
+        console.error("Error fetching weather by coordinates:", error);
+      });
+    }
 };
-
+// Add geolocation event listener
+document.querySelector(".geolocation-btn").addEventListener("click", function() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        weather.fetchWeatherByCoords(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+      },
+      (error) => {
+        alert("Unable to retrieve your location. Please search manually.");
+      }
+    );
+  } else {
+    alert("Geolocation is not supported by your browser.");
+  }
+});
 // Add an event listener to the search button to trigger the weather search when clicked
 document.querySelector(".search button").addEventListener("click", function() {
   weather.search();

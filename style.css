@@ -33,7 +33,7 @@ body {
 .search{
     display: flex;
     align-items: center;
-    justify-content: center;
+    gap: 8px;
 }
 .humidity{
     margin-bottom: 0.8em;
@@ -71,3 +71,10 @@ input.search-bar{
     font-size: 100%;
     margin-right: auto;
 }
+.search-bar {
+    flex-grow: 1;
+  }
+  
+  button {
+    flex-shrink: 0;
+  }
