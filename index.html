@@ -24,10 +24,21 @@
 
           </path>
         </svg></button>
+        <button class="geolocation-btn">📍</button>
       </div>
     <div class="weather">
       <h2 class="city">Weather in Kolkata</h2>
-      <h1 class="temp">19°C</h1>
+      <div class="temp-container">
+        <h1 class="temp">19°C</h1>
+        <label class="unit-toggle">
+          <input type="checkbox" class="toggle-checkbox">
+          <div class="toggle-switch">
+            <span class="celsius">°C</span>
+            <span class="fahrenheit">°F</span>
+            <div class="toggle-slider"></div>
+          </div>
+        </label>
+      </div>
       <div class="flex"><img src="https://openweathermap.org/img/wn/50d.png" alt="" class="icon">
         <div class="description">Clear</div></div>
       <div class="humidity">Humidity: 85%</div>

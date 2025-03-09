@@ -2,6 +2,16 @@
 const weather = {
   // API key for accessing the OpenWeatherMap API
   apiKey: "5c52164e53557f5608b4e45fbc3756f7",
+  celsiusTemp: null,
+  isCelsius: true,
+
+  // Geolocation Weather Fetch
+  fetchWeatherByCoords: function(lat, lon) {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${this.apiKey}`)
+      .then(response => response.json())
+      .then(data => this.displayWeather(data))
+      .catch(error => console.error("Error:", error));
+  },
 
   // Method to fetch weather data for a given city
   fetchWeather: function(city) {
@@ -26,7 +36,9 @@ const weather = {
     const { icon, description } = data.weather[0];
     const { temp, humidity } = data.main;
     const { speed } = data.wind;
-
+    this.celsiusTemp = data.main.temp;
+    this.updateTempDisplay();
+    
     // Update HTML elements with the extracted weather information
     document.querySelector(".city").innerText = "Weather in " + name;
     document.querySelector(".icon").src = "https://openweathermap.org/img/wn/" + icon + ".png";
@@ -37,6 +49,24 @@ const weather = {
 
     // Fetch a background image from Unsplash based on the city
     this.fetchBackgroundImage(name);
+    this.celsiusTemp = data.main.temp;
+    this.updateTempDisplay();
+    document.querySelector(".toggle-checkbox").checked = !this.isCelsius;
+  },
+  updateTempDisplay: function() {
+    const temp = this.isCelsius ? 
+      this.celsiusTemp : 
+      (this.celsiusTemp * 9/5) + 32;
+      document.querySelector(".temp").textContent = `${Math.round(temp)}°${this.isCelsius ? 'C' : 'F'}`;
+  },
+
+  toggleUnit: function() {
+    this.isCelsius = !this.isCelsius;
+    this.updateTempDisplay();
+  },
+  updateTempDisplay: function() {
+    const temp = this.isCelsius ? this.celsiusTemp : (this.celsiusTemp * 9/5) + 32;
+    document.querySelector(".temp").textContent = `${Math.round(temp)}°${this.isCelsius ? 'C' : 'F'}`;
   },
 
   // Method to fetch a background image from Unsplash
@@ -85,6 +115,26 @@ document.querySelector(".search-bar").addEventListener("keyup", function(event) 
     weather.search();
   }
 });
-
+document.querySelector(".unit-toggle").addEventListener("click", function() {
+  weather.toggleUnit();
+});
+document.querySelector(".toggle-checkbox").addEventListener("change", function() {
+  weather.toggleUnit();
+});
+document.querySelector(".geolocation-btn").addEventListener("click", () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        weather.fetchWeatherByCoords(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+      },
+      (error) => alert("Location access denied. Please search manually.")
+    );
+  } else {
+    alert("Geolocation not supported by your browser.");
+  }
+});
 // Initially fetch weather data for the city "Kolkata" when the script is loaded
 weather.fetchWeather("Kolkata");
