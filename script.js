@@ -34,6 +34,9 @@ const weather = {
     const { speed } = data.wind;
 
     // Update HTML elements with the extracted weather information
+    document.querySelector('.box').style.opacity = "1";
+    document.querySelector(".error-container").style.display = "none";
+    document.querySelector(".retry-search").value = "";
     document.querySelector(".city").innerText = "Weather in " + name;
     document.querySelector(".icon").src = "https://openweathermap.org/img/wn/" + icon + ".png";
     document.querySelector(".description").innerText = description;
@@ -79,12 +82,21 @@ const weather = {
   },
 
   displayError: function() {
-    document.querySelector(".city").innerText = "City not found!";
-    document.querySelector(".temp").innerText = "";
-    document.querySelector(".icon").style.display = "none";
-    document.querySelector(".description").innerText = "Please enter a valid city.";
-    document.querySelector(".humidity").innerText = "";
-    document.querySelector(".wind").innerText = "";
+    const errorContainer = document.querySelector(".error-container");
+    const weatherContainer = document.querySelector('.box');
+    weatherContainer.style.opacity = "0";
+    
+    errorContainer.style.display = "flex";
+
+    setTimeout(() => {
+      errorContainer.style.opacity = "1";
+    }, 100);
+
+    document.querySelector(".retry-button").addEventListener("click", function() {
+        const retryValue = document.querySelector(".retry-search").value;
+        document.querySelector(".search-bar").value = retryValue;
+        weather.fetchWeather(retryValue);
+    });
   }
 };
 
