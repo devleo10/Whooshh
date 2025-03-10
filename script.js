@@ -18,7 +18,12 @@ const weather = {
     // Fetch weather data from OpenWeatherMap API using the provided city and API key
     fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + this.apiKey)
       // Handle the response by converting it to JSON
-      .then(response => response.json())
+      .then(response => {
+        if (!response.ok) {
+          throw new Error("City not found!");
+        }
+        return response.json();
+      })
       // Call the displayWeather method with the fetched data
       .then(data => {
         this.displayWeather(data);
@@ -26,6 +31,7 @@ const weather = {
       // Catch any errors that may occur during the fetch operation
       .catch(error => {
         console.error("Error fetching weather data:", error);
+        this.displayError();
       });
   },
 
@@ -40,6 +46,9 @@ const weather = {
     this.updateTempDisplay();
     
     // Update HTML elements with the extracted weather information
+    document.querySelector('.box').style.opacity = "1";
+    document.querySelector(".error-container").style.display = "none";
+    document.querySelector(".retry-search").value = "";
     document.querySelector(".city").innerText = "Weather in " + name;
     document.querySelector(".icon").src = "https://openweathermap.org/img/wn/" + icon + ".png";
     document.querySelector(".description").innerText = description;
@@ -100,6 +109,24 @@ const weather = {
     console.log("Search button clicked");
     // Call the fetchWeather method with the value entered in the search bar
     this.fetchWeather(document.querySelector(".search-bar").value);
+  },
+
+  displayError: function() {
+    const errorContainer = document.querySelector(".error-container");
+    const weatherContainer = document.querySelector('.box');
+    weatherContainer.style.opacity = "0";
+    
+    errorContainer.style.display = "flex";
+
+    setTimeout(() => {
+      errorContainer.style.opacity = "1";
+    }, 100);
+
+    document.querySelector(".retry-button").addEventListener("click", function() {
+        const retryValue = document.querySelector(".retry-search").value;
+        document.querySelector(".search-bar").value = retryValue;
+        weather.fetchWeather(retryValue);
+    });
   }
 };
 
