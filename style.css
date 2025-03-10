@@ -34,7 +34,20 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 20px;
 }
+
+.search-bar:hover{
+  border-color: #0056b3;
+  box-shadow: 0 0  5px rgba(0, 123, 255, 0.5);
+}
+
+.search-bar:focus{
+  outline: none;
+  border-color: #0056b3;
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.5);
+}
+
 .humidity{
     margin-bottom: 0.8em;
 }
@@ -70,6 +83,7 @@ input.search-bar{
     font-family: inherit;
     font-size: 100%;
     margin-right: auto;
+    transition: border-color 0.3s, box-shadow 0.3s;
 }
 
 .error-container {
