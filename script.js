@@ -110,7 +110,7 @@ const weather = {
     // Call the fetchWeather method with the value entered in the search bar
     this.fetchWeather(document.querySelector(".search-bar").value);
   },
-feature/gps-location
+
   fetchWeatherByCoords: function(lat, lon) {
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${this.apiKey}`
@@ -120,7 +120,7 @@ feature/gps-location
       .catch(error => {
         console.error("Error fetching weather by coordinates:", error);
       });
-    }
+    },
 
 
   displayError: function() {
@@ -158,6 +158,26 @@ document.querySelector(".geolocation-btn").addEventListener("click", function() 
     );
   } else {
     alert("Geolocation is not supported by your browser.");
+  }
+});
+// Add loading state during geolocation detection
+document.querySelector(".geolocation-btn").addEventListener("click", function() {
+  this.classList.add('loading');
+  
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        this.classList.remove('loading');
+        weather.fetchWeatherByCoords(
+          position.coords.latitude,
+          position.coords.longitude
+        );
+      },
+      (error) => {
+        this.classList.remove('loading');
+        alert("Location access denied. Please search manually.");
+      }
+    );
   }
 });
 // Add an event listener to the search button to trigger the weather search when clicked

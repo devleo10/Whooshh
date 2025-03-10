@@ -79,7 +79,7 @@ feature/gps-location
   button {
     flex-shrink: 0;
   }
-=======
+
 
 .error-container {
     display: none;
@@ -275,3 +275,91 @@ feature/gps-location
     transition: opacity 0.3s ease;
   }
 
+/* GPS Button Container */
+.geolocation-btn {
+  background: #2196F3;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 15px 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* GPS Pin Icon */
+.gps-pin {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  z-index: 2;
+}
+
+/* Satellite Waves Animation */
+.satellite-waves {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.wave {
+  position: absolute;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  animation: radarPulse 2s infinite;
+  opacity: 0;
+  left: -15px;
+  top: -15px;
+  right: -15px;
+  bottom: -15px;
+}
+
+.wave-1 { animation-delay: 0.5s; }
+.wave-2 { animation-delay: 1s; }
+.wave-3 { animation-delay: 1.5s; }
+
+@keyframes radarPulse {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+/* Text Label */
+.gps-label {
+  color: white;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  z-index: 2;
+}
+
+/* Hover Effects */
+.geolocation-btn:hover {
+  background: #1976D2;
+  box-shadow: 0 4px 15px rgba(33,150,243,0.3);
+  transform: translateY(-1px);
+}
+
+.geolocation-btn:hover .wave {
+  border-color: #BBDEFB;
+}
+
+/* Active State */
+.geolocation-btn:active {
+  transform: translateY(1px);
+  background: #1565C0;
+}
+
+/* Loading State */
+.geolocation-btn.loading .gps-label {
+  display: none;
+}
+
+.geolocation-btn.loading::after {
+  content: "Detecting...";
+  color: white;
+}

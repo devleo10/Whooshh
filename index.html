@@ -24,7 +24,19 @@
 
           </path>
         </svg></button>
-        <button class="geolocation-btn">📍</button>
+        <button class="geolocation-btn" aria-label="Use current location">
+          <div class="gps-container">
+            <svg class="gps-pin" viewBox="0 0 24 24">
+              <path fill="currentColor" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
+            </svg>
+            <div class="satellite-waves">
+              <div class="wave wave-1"></div>
+              <div class="wave wave-2"></div>
+              <div class="wave wave-3"></div>
+            </div>
+          </div>
+          <span class="gps-label">Find Me</span>
+        </button>
       </div>
     <div class="weather">
       <h2 class="city">Weather in Kolkata</h2>
