@@ -94,24 +94,38 @@ const weather = {
     this.fetchWeather(document.querySelector(".search-bar").value);
   },
 
+  fetchWeatherByCoords: function(lat, lon) {
+    fetch(
+      `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${this.apiKey}`
+    )
+      .then(response => response.json())
+      .then(data => this.displayWeather(data))
+      .catch(error => {
+        console.error("Error fetching weather by coordinates:", error);
+      });
+  },
+  
   displayError: function () {
     document.querySelector('.box').style.opacity = "0";
+  
     const errorContainer = document.querySelector(".error-container");
     errorContainer.style.display = "flex";
-
+  
     setTimeout(() => {
       errorContainer.style.opacity = "1";
     }, 100);
-
+  
     document.querySelector(".retry-button").addEventListener("click", function () {
       const retryValue = document.querySelector(".retry-search").value;
       document.querySelector(".search-bar").value = retryValue;
       weather.fetchWeather(retryValue);
     });
   }
+  
 };
 
 // Event Listeners
+// Add geolocation event listener with loading state
 document.querySelector(".geolocation-btn").addEventListener("click", function () {
   this.classList.add('loading');
 
@@ -130,11 +144,13 @@ document.querySelector(".geolocation-btn").addEventListener("click", function ()
       }
     );
   } else {
+    this.classList.remove('loading');
     alert("Geolocation is not supported by your browser.");
   }
 });
 
-document.querySelector(".search button").addEventListener("click", function () {
+// Add an event listener to the search button to trigger the weather search when clicked
+document.querySelector(".search button").addEventListener("click", function() {
   weather.search();
 });
 
