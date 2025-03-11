@@ -82,7 +82,7 @@ const weather = {
 
   // let: imageCache = {},
   fetchBackgroundImage:async function (city) {
-    const numImages = 10;
+    const numImages = 8;
     const pexelsUrl = `https://api.pexels.com/v1/search?query=${city}&per_page=${numImages}`;
 
     try {
