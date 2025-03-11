@@ -101,7 +101,7 @@ const weather = {
 };
 
 // Event Listeners
-document.querySelector(".search button").addEventListener("click",function() {
+document.querySelector(".search button").addEventListener("click", function() {
   weather.search();
 });
 document.querySelector(".search-bar").addEventListener("keyup", (event) => {
