@@ -12,14 +12,12 @@ body {
     background-size: cover;
 }
 .box {
-    max-width: 400px;
+    max-width: 600px;
     background: #000000d0;
     color:white ;
     padding: 2.5em;
     border-radius: 20px;
     width: 100%;
-    margin-bottom: 8vh;
-    
 }
 .flex{
     display: flex;
@@ -363,4 +361,30 @@ feature/gps-location
 .geolocation-btn.loading::after {
   content: "Detecting...";
   color: white;
+}
+
+
+.forecast-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.forecast-item {
+  background: rgba(59, 56, 56, 0.2);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  transition: 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+}
+
+.forecast-item:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.forecast-item img {
+  width: 50px;
+  height: 50px;
 }
