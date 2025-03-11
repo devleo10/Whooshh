@@ -124,7 +124,7 @@ const weather = {
     this.fetchWeather(document.querySelector(".search-bar").value);
   },
 
-  fetchWeatherByCoords: function (lat, lon) {
+  fetchWeatherByCoords: function(lat, lon) {
     fetch(
       `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${this.apiKey}`
     )
@@ -136,7 +136,7 @@ const weather = {
   },
 
 
-  displayError: function () {
+  displayError: function() {
     const errorContainer = document.querySelector(".error-container");
     const weatherContainer = document.querySelector('.box');
     weatherContainer.style.opacity = "0";
