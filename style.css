@@ -1,0 +1,366 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    font-family: 'Roboto Slab', serif;
+    background: #222;
+    background-image: url('https://source.unsplash.com/random/1600x900/?landscape');
+    background-size: cover;
+}
+.box {
+    max-width: 400px;
+    background: #000000d0;
+    color:white ;
+    padding: 2.5em;
+    border-radius: 20px;
+    width: 100%;
+    margin-bottom: 8vh;
+    
+}
+.flex{
+    display: flex;
+    align-items: center;
+    margin-top: -3vh;
+
+}
+.description{
+    text-transform: capitalize;
+   
+}
+.search{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.humidity{
+    margin-bottom: 0.8em;
+}
+.icon{
+    height:10vh;
+    width: 5lh;
+    margin-left: -30px;
+}
+.search-button{
+    margin-right: 3em;
+    border-radius: 50%;
+    border:none;
+    outline: none;
+    height: 2.5em;
+    width: 2.5em;
+    background-color: #7c7c7c2e;
+    color:white;
+    transition: 0.2s ease-in-out;
+
+}
+button:hover{
+    background-color: #7c7c7c6b;
+    cursor: pointer;
+}
+input.search-bar{
+    width:70%;
+    border:none;
+    outline: none;
+    padding:0.5em ;
+    border-radius:20px;
+    background-color: #7c7c7c2e;
+    color:white;
+    font-family: inherit;
+    font-size: 100%;
+    margin-right: auto;
+}
+feature/gps-location
+.search-bar {
+    flex-grow: 1;
+  }
+  
+  button {
+    flex-shrink: 0;
+  }
+
+
+.error-container {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: #000000d0;
+    color: white;
+    padding: 20px;
+    border-radius: 10px;
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+    text-align: center;
+    width: 90%;
+    max-width: 400px;
+}
+
+.error-box {
+    text-align: center;
+}
+
+.error-box img {
+    width: 8rem;
+    margin-bottom: 10px;
+}
+
+.error-icon {
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+.error-message {
+    font-size: 18px;
+    font-weight: bold;
+    color: white;
+    margin-block: 10px;
+}
+
+.retry-search {
+    width: 80%;
+    padding: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    background: #7c7c7c2e;
+    color: white;
+    margin-block: 10px;
+}
+
+.retry-button {
+    margin-top: 10px;
+    padding: 8px 15px;
+    background-color: white;
+    color: black;
+    border: 1px solid white;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.retry-button:hover {
+    background-color: rgb(236, 226, 226);
+    color: black;
+}
+
+.temp-container {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin: 15px 0;
+  }
+  
+  .unit-toggle {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+  }
+  
+  .toggle-checkbox {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+  
+  .toggle-switch {
+    position: relative;
+    display: block;
+    width: 70px;
+    height: 34px;
+    background-color: #7c7c7c4d;
+    border-radius: 34px;
+    transition: all 0.3s ease;
+  }
+  
+  .toggle-slider {
+    position: absolute;
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+  }
+  
+  .toggle-switch span {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 0.85em;
+    font-weight: bold;
+    color: white;
+    transition: opacity 0.3s ease;
+  }
+  
+  .celsius {
+    left: 10px;
+  }
+  
+  .fahrenheit {
+    right: 10px;
+  }
+  
+  /* Checked state */
+  .toggle-checkbox:checked + .toggle-switch {
+    background-color: #2196F3;
+  }
+  
+  .toggle-checkbox:checked + .toggle-switch .toggle-slider {
+    transform: translateX(36px);
+  }
+  
+  .toggle-checkbox:checked + .toggle-switch .celsius {
+    opacity: 0.5;
+  }
+  
+  .toggle-checkbox:checked + .toggle-switch .fahrenheit {
+    opacity: 1;
+  }
+  
+  .toggle-checkbox:not(:checked) + .toggle-switch .celsius {
+    opacity: 1;
+  }
+  
+  .toggle-checkbox:not(:checked) + .toggle-switch .fahrenheit {
+    opacity: 0.5;
+  }
+  
+  /* Hover effects */
+  .unit-toggle:hover .toggle-switch {
+    background-color: #7c7c7c6b;
+  }
+  
+  .unit-toggle:hover .toggle-slider {
+    transform: scale(1.1);
+  }
+  
+  .unit-toggle:hover .toggle-checkbox:checked + .toggle-switch .toggle-slider {
+    transform: translateX(36px) scale(1.1);
+  }
+  
+  @media (max-width: 480px) {
+    .toggle-switch {
+      width: 60px;
+      height: 30px;
+    }
+    
+    .toggle-slider {
+      width: 22px;
+      height: 22px;
+    }
+    
+    .toggle-checkbox:checked + .toggle-switch .toggle-slider {
+      transform: translateX(30px);
+    }
+  }
+  .toggle-switch {
+    transition: background-color 0.3s ease;
+  }
+  
+  .toggle-slider {
+    transition: transform 0.3s ease, background-color 0.3s ease;
+  }
+  
+  .toggle-switch span {
+    transition: opacity 0.3s ease;
+  }
+
+/* GPS Button Container */
+.geolocation-btn {
+  background: #2196F3;
+  border: none;
+  border-radius: 25px;
+  padding: 8px 15px 8px 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* GPS Pin Icon */
+.gps-pin {
+  width: 24px;
+  height: 24px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  z-index: 2;
+}
+
+/* Satellite Waves Animation */
+.satellite-waves {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  left: 0;
+  top: 0;
+}
+
+.wave {
+  position: absolute;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  animation: radarPulse 2s infinite;
+  opacity: 0;
+  left: -15px;
+  top: -15px;
+  right: -15px;
+  bottom: -15px;
+}
+
+.wave-1 { animation-delay: 0.5s; }
+.wave-2 { animation-delay: 1s; }
+.wave-3 { animation-delay: 1.5s; }
+
+@keyframes radarPulse {
+  0% { transform: scale(0); opacity: 1; }
+  100% { transform: scale(1); opacity: 0; }
+}
+
+/* Text Label */
+.gps-label {
+  color: white;
+  font-weight: 500;
+  font-size: 0.9rem;
+  letter-spacing: 0.5px;
+  z-index: 2;
+}
+
+/* Hover Effects */
+.geolocation-btn:hover {
+  background: #1976D2;
+  box-shadow: 0 4px 15px rgba(33,150,243,0.3);
+  transform: translateY(-1px);
+}
+
+.geolocation-btn:hover .wave {
+  border-color: #BBDEFB;
+}
+
+/* Active State */
+.geolocation-btn:active {
+  transform: translateY(1px);
+  background: #1565C0;
+}
+
+/* Loading State */
+.geolocation-btn.loading .gps-label {
+  display: none;
+}
+
+.geolocation-btn.loading::after {
+  content: "Detecting...";
+  color: white;
+}
