@@ -79,28 +79,32 @@ const weather = {
   },
 
   // Method to fetch a background image from Unsplash
-  fetchBackgroundImage: function(city) {
-    const unsplashUrl = `https://api.unsplash.com/photos/random?query=${city}&client_id=YOUR_ACCESS_KEY`;
+  fetchBackgroundImage: async function (city) {
+    const numImages = 8;
+    const pexelsUrl = `https://api.pexels.com/v1/search?query=${city}&per_page=${numImages}`;
 
-    fetch(unsplashUrl)
-      .then(response => response.json())
-      .then(data => {
-        const imageUrl = data[0]?.urls?.regular; // Get the image URL
-        if (imageUrl) {
-          document.body.style.backgroundImage = `url(${imageUrl})`; // Set the background image
-        } else {
-          this.setFallbackBackgroundImage(); // Set fallback if no image is returned
-        }
-      })
-      .catch(error => {
-        console.error("Error fetching background image:", error);
-        this.setFallbackBackgroundImage(); // Set fallback in case of error
+    try {
+      const response = await fetch(pexelsUrl, {
+        headers: { Authorization: "Wd0z8xbKGAwsn0jOdOwXHaFd4jHy9KcT62KjpqhdgM9TSywYzsHoDQrs" }
       });
+
+      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+
+      const data = await response.json();
+      if (data.photos.length > 0) {
+        const randomIndex = Math.floor(Math.random() * data.photos.length);
+        document.body.style.backgroundImage = `url(${data.photos[randomIndex].src.landscape})`;
+      } else {
+        this.setFallbackBackgroundImage();
+      }
+    } catch (error) {
+      console.error("Error fetching background image:", error);
+      this.setFallbackBackgroundImage();
+    }
   },
 
-  // Method to set a fallback background image
-  setFallbackBackgroundImage: function() {
-    document.body.style.backgroundImage = "url('https://source.unsplash.com/random/1600x900/?city,landscape')";
+  setFallbackBackgroundImage: function () {
+    document.body.style.backgroundImage = "url('https://plus.unsplash.com/premium_photo-1675368244123-082a84cf3072?q=80&w=2150&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
   },
 
   // Method to initiate a weather search based on the entered value in the search bar
