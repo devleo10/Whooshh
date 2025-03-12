@@ -1,24 +1,26 @@
 body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    font-family: 'Roboto Slab', serif;
-    background: #222;
-    background-image: url('https://source.unsplash.com/random/1600x900/?landscape');
-    background-size: cover;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;  /* Ensure full height */
+  margin: 0;  /* Remove margin */
+  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto Slab', serif;
+  background-color: #222; /* Default dark background */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  transition: background 1s ease-in-out;
 }
+
 .box {
-    max-width: 400px;
+    width: 80vw;
     background: #000000d0;
     color:white ;
     padding: 2.5em;
     border-radius: 20px;
-    width: 100%;
-    margin-bottom: 8vh;
+    /* height: 100vh; */
     
 }
 .flex{
@@ -140,6 +142,7 @@ feature/gps-location
     padding: 8px 15px;
     background-color: white;
     color: black;
+    
     border: 1px solid white;
     border-radius: 5px;
     cursor: pointer;
@@ -177,6 +180,7 @@ feature/gps-location
     width: 70px;
     height: 34px;
     background-color: #7c7c7c4d;
+    
     border-radius: 34px;
     transition: all 0.3s ease;
   }
@@ -363,4 +367,40 @@ feature/gps-location
 .geolocation-btn.loading::after {
   content: "Detecting...";
   color: white;
+}
+.siuu {
+  justify-content: center;
+  align-items: center;
+  display: inline-flex;
+  flex-wrap: wrap;
+  width: 97%;
+  margin: 0 auto; /* Centers the div */
+  background-color: #1976D2; /* Optional: adds a background for visibility */
+  padding: 10px;
+  text-align: center;
+  border-radius: 5px;
+}
+.siuu1{
+  margin: 2px;
+  padding: 15px;
+  
+  border: 2px solid rgba(255, 255, 255, 0.244);
+  border-radius: 5px;
+}
+
+
+
+.weather-icon {
+  font-size: 50px;
+  color: #1976D2; 
+  margin-right: 10px;
+}
+
+.flex {
+  border: 2px solid rgba(255, 255, 255, 0.244);
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
 }
