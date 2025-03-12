@@ -43,7 +43,6 @@ body {
     margin-left: -30px;
 }
 .search-button{
-    margin-right: 3em;
     border-radius: 50%;
     border:none;
     outline: none;
@@ -387,4 +386,48 @@ feature/gps-location
 .forecast-item img {
   width: 50px;
   height: 50px;
+}
+
+@media (max-width: 768px) {
+    body {
+      height: auto;
+      padding: 20px;
+    }
+    .box {
+        width: 90%;
+        padding: 1.5em;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+    
+    .forecast-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .forecast-item {
+        padding: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .box {
+        width: 95%;
+        padding: 1.2em;
+    }
+
+    .forecast-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .forecast-item {
+        padding: 0;
+    }
+
+    .gps-label {
+        font-size: 0.8rem;
+    }
 }
