@@ -27,12 +27,48 @@ const weather = {
       // Call the displayWeather method with the fetched data
       .then(data => {
         this.displayWeather(data);
+        this.fetchForecast(data.coord.lat, data.coord.lon);
       })
       // Catch any errors that may occur during the fetch operation
       .catch(error => {
         console.error("Error fetching weather data:", error);
         this.displayError();
       });
+  },
+
+   fetchForecast: function(lat, lon) {
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,hourly,curremt&appid=5796abbde9106b7da4febfae8c44c232`)
+      .then(response => response.json())
+      .then(data => this.displayForecast(data))
+      .catch(error => console.error("Error fetching forecast:", error));
+  },
+
+  displayForecast: function(data) {
+    const forecastContainer = document.querySelector(".forecast-container");
+    forecastContainer.innerHTML = "";
+
+    const daysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+
+    let sortedData = data.daily.slice(1).map(day => {
+        const date = new Date(day.dt * 1000);
+        return {
+            ...day,
+            date: date.toLocaleDateString("en-US", { weekday: "short" }),
+            dayIndex: date.getDay()
+        };
+    });
+    console.log(sortedData)
+
+    sortedData.sort((a, b) => a.dayIndex - b.dayIndex);
+ 
+    sortedData.forEach((day) => (
+      forecastContainer.innerHTML += `
+        <div class="forecast-item">
+          <p>${day.date}</p>
+          <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" alt="${day.weather[0].description}">
+          <p>${day.temp.day}°C</p>
+        </div>`
+    ));
   },
 
   // Method to display weather information on the webpage
