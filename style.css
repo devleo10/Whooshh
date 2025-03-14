@@ -12,14 +12,12 @@ body {
     background-size: cover;
 }
 .box {
-    max-width: 400px;
+    max-width: 600px;
     background: #000000d0;
     color:white ;
     padding: 2.5em;
     border-radius: 20px;
     width: 100%;
-    margin-bottom: 8vh;
-    
 }
 .flex{
     display: flex;
@@ -53,7 +51,6 @@ img{
 
 }
 .search-button{
-    margin-right: 3em;
     border-radius: 50%;
     border:none;
     outline: none;
@@ -382,5 +379,74 @@ feature/gps-location
 .geolocation-btn.loading::after {
   content: "Detecting...";
   color: white;
+}
 
+
+.forecast-container {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.forecast-item {
+  background: rgba(59, 56, 56, 0.2);
+  padding: 10px;
+  border-radius: 8px;
+  text-align: center;
+  transition: 0.3s;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  cursor: pointer;
+}
+
+.forecast-item:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.forecast-item img {
+  width: 50px;
+  height: 50px;
+}
+
+@media (max-width: 768px) {
+    body {
+      height: auto;
+      padding: 20px;
+    }
+    .box {
+        width: 90%;
+        padding: 1.5em;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+    
+    .forecast-container {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+    }
+
+    .forecast-item {
+        padding: 0;
+    }
+}
+
+@media (max-width: 480px) {
+    .box {
+        width: 95%;
+        padding: 1.2em;
+    }
+
+    .forecast-container {
+        grid-template-columns: repeat(1, 1fr);
+    }
+
+    .forecast-item {
+        padding: 0;
+    }
+
+    .gps-label {
+        font-size: 0.8rem;
+    }
 }
