@@ -11,13 +11,19 @@ body {
     background-image: url('https://source.unsplash.com/random/1600x900/?landscape');
     background-size: cover;
 }
+
 .box {
-    max-width: 600px;
-    background: #000000d0;
-    color:white ;
-    padding: 2.5em;
-    border-radius: 20px;
-    width: 100%;
+  max-width: 600px;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 2.5em;
+  border-radius: 20px;
+  width: 100%;
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+}
+.box:hover {
+  transform: scale(1.02);
 }
 .flex{
     display: flex;
@@ -53,10 +59,16 @@ body {
     transition: 0.2s ease-in-out;
 
 }
+.search-button:hover {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.0);
+  cursor: pointer;
+}
 button:hover{
     background-color: #7c7c7c6b;
     cursor: pointer;
 }
+
 input.search-bar{
     width:70%;
     border:none;
@@ -70,6 +82,15 @@ input.search-bar{
     margin-right: auto;
 }
 feature/gps-location
+
+input.search-bar::placeholder {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+input.search-bar:focus {
+  background-color: rgba(255, 255, 255, 0.3);
+  transform: scale(1.02);
+}
 .search-bar {
     flex-grow: 1;
   }
