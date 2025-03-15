@@ -441,12 +441,16 @@ height: 50px;
   }
 
   .forecast-container {
-      grid-template-columns: repeat(1, 1fr);
-  }
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); 
+    gap: 10px;
+    justify-content: center;
+}
 
-  .forecast-item {
-      padding: 0;
-  }
+.forecast-item {
+    min-width: 100px; /* Ensure it doesn’t shrink too much */
+    padding: 8px;
+}
 
   .gps-label {
       font-size: 0.8rem;
