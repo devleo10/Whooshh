@@ -55,8 +55,9 @@ Whooshh is a sleek, responsive, and intuitive weather application built with **H
 ---
 
 ## 🌍 Try It Live
+## Experience Whooshh Right Now  
+🚀 [**Live Demo on Vercel**](https://weather-app-0.vercel.app/)  
 
-Experience Whooshh right now: [**Live Demo on Vercel**](https://weather-app-leoakash.vercel.app/) 🚀
 
 ---
 
