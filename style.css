@@ -43,7 +43,7 @@ img{
     width: 80px;
     margin-left: 0;
     object-fit: contain;
-=======
+
 .icon{
     height:10vh;
     width: 5lh;
@@ -87,8 +87,7 @@ input.search-bar{
         height: 60px;
         width: 60px;
     }
-=======
-feature/gps-location
+
 .search-bar {
     flex-grow: 1;
   }
