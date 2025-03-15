@@ -5,6 +5,82 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Whooshh- check weather</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(45deg, #00c6ff, #0072ff);
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      color: white;
+    }
+    
+    .weather {
+      background-color: rgba(0, 0, 0, 0.6);
+      border-radius: 15px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+      width: 300px;
+      font-size: 16px;
+    }
+
+    .city {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .temp {
+      font-size: 48px;
+      margin-bottom: 15px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+
+    .flex {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .icon {
+      width: 40px;
+      margin-right: 10px;
+    }
+
+    .description {
+      font-size: 18px;
+      font-weight: 500;
+    }
+
+    .humidity,
+    .wind {
+      margin: 8px 0;
+    }
+
+    .humidity {
+      font-size: 16px;
+      color: #a1c4d8;
+    }
+
+    .wind {
+      font-size: 16px;
+      color: #a1c4d8;
+    }
+
+    /* Adding a hover effect for interactivity */
+    .weather:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+    }
+  </style>
   <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
