@@ -44,32 +44,45 @@ const weather = {
   },
 
   displayForecast: function(data) {
-    const forecastContainer = document.querySelector(".forecast-container");
-    forecastContainer.innerHTML = "";
-
     const daysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-
-    let sortedData = data.daily.slice(1).map(day => {
-        const date = new Date(day.dt * 1000);
-        return {
-            ...day,
-            date: date.toLocaleDateString("en-US", { weekday: "short" }),
-            dayIndex: date.getDay()
-        };
+  
+    this.forecastData = data.daily.slice(1).map(day => {
+      const date = new Date(day.dt * 1000);
+      return {
+        date: date.toLocaleDateString("en-US", { weekday: "short" }),
+        dayIndex: date.getDay(), // Store numeric day index for sorting
+        icon: day.weather[0].icon,
+        description: day.weather[0].description,
+        tempC: day.temp.day, // Store Celsius temperature
+        tempF: (day.temp.day * 9/5) + 32 // Store Fahrenheit temperature
+      };
     });
-    console.log(sortedData)
-
-    sortedData.sort((a, b) => a.dayIndex - b.dayIndex);
- 
-    sortedData.forEach((day) => (
-      forecastContainer.innerHTML += `
-        <div class="forecast-item">
-          <p>${day.date}</p>
-          <img src="https://openweathermap.org/img/wn/${day.weather[0].icon}.png" alt="${day.weather[0].description}">
-          <p>${day.temp.day}°C</p>
-        </div>`
-    ));
+  
+    // Sort forecastData based on the correct order of weekdays
+    this.forecastData.sort((a, b) => daysOrder.indexOf(a.date) - daysOrder.indexOf(b.date));
+  
+    this.displayForecastItems(); // Call function to render forecast items
   },
+  
+  displayForecastItems: function() {
+    const forecastContainer = document.querySelector(".forecast-container");
+    forecastContainer.innerHTML = ""; // Clear the container before updating
+  
+    this.forecastData.forEach((day) => {
+      const temp = this.isCelsius ? day.tempC : day.tempF; // Choose correct unit
+  
+      const forecastItem = document.createElement("div");
+      forecastItem.classList.add("forecast-item");
+      forecastItem.innerHTML = `
+        <p>${day.date}</p>
+        <img src="https://openweathermap.org/img/wn/${day.icon}.png" alt="${day.description}">
+        <p>${Math.round(temp)}°${this.isCelsius ? 'C' : 'F'}</p>
+      `;
+  
+      forecastContainer.appendChild(forecastItem);
+    });
+  },
+  
 
   // Method to display weather information on the webpage
   displayWeather: function(data) {
@@ -108,7 +121,9 @@ const weather = {
   toggleUnit: function() {
     this.isCelsius = !this.isCelsius;
     this.updateTempDisplay();
+    this.displayForecastItems(); // Ensure forecast updates when switching units
   },
+  
   updateTempDisplay: function() {
     const temp = this.isCelsius ? this.celsiusTemp : (this.celsiusTemp * 9/5) + 32;
     document.querySelector(".temp").textContent = `${Math.round(temp)}°${this.isCelsius ? 'C' : 'F'}`;
