@@ -1,3 +1,18 @@
+ <div align="center">
+ <p>
+
+[![Open Source Love svg1](https://badges.frapsoft.com/os/v1/open-source.svg?v=103)](https://github.com/devleo10/Whooshh/)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat)
+![Visitors](https://api.visitorbadge.io/api/visitors?path=devleo10%2FWhooshh%20&countColor=%23263759&style=flat)
+![GitHub forks](https://img.shields.io/github/forks/devleo10/Whooshh)
+![GitHub Repo stars](https://img.shields.io/github/stars/devleo10/Whooshh)
+![GitHub last commit](https://img.shields.io/github/last-commit/devleo10/Whooshh)
+![GitHub repo size](https://img.shields.io/github/repo-size/devleo10/Whooshh)
+![Github](https://img.shields.io/github/license/devleo10/Whooshh)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/devleo10/Whooshh)
+
+ </p>
+ </div>
 # 🌬️ Whooshh – Your Personal Weather Companion
 
 Whooshh is a sleek, responsive, and intuitive weather application built with **HTML, CSS, and JavaScript**. It delivers real-time weather updates with a simple and elegant design, making weather tracking effortless. ☀️🌧️❄️
@@ -13,14 +28,17 @@ Whooshh is a sleek, responsive, and intuitive weather application built with **H
 
 ---
 
-## 🛠️ Built With
-
-💻 **HTML** – Structuring the application.  
-🎨 **CSS** – Styling and responsiveness.  
-⚡ **JavaScript** – Fetching and displaying dynamic data.  
-🌎 **Weather API** – Powered by **[OpenWeatherMap](https://openweathermap.org/api)** for real-time updates.  
+## 💻 Technologies Used
+| Technology   | Purpose                                      |
+|--------------|---------------------------------------------|
+| **HTML**     | Structure of the application               |
+| **CSS**      | Styling and responsiveness                 |
+| **JavaScript (JS)** | Dynamic functionality, API handling   |
+| **OpenWeatherMap API** | Fetching real-time weather data   |
+| **Unsplash API**     | Fetching background images based on city  |
 
 ---
+
 
 ## 🚀 Get Started in 3 Easy Steps
 
@@ -37,8 +55,9 @@ Whooshh is a sleek, responsive, and intuitive weather application built with **H
 ---
 
 ## 🌍 Try It Live
+## Experience Whooshh Right Now  
+🚀 [**Live Demo on Vercel**](https://weather-app-0.vercel.app/)  
 
-Experience Whooshh right now: [**Live Demo on Vercel**](https://weather-app-leoakash.vercel.app/) 🚀
 
 ---
 
@@ -71,3 +90,9 @@ This project is licensed under the **MIT License**.
 ---
 
 💡 Developed with passion by **[Mehbub](https://github.com/devleo10)**. 🌍☁️
+
+# 🚀 Happy Coding! 💻🌦️
+<p align="center">
+  <img src="https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExbGZ0cG1qczB0dzRma24yY3NhZWl4ZTVqM2hldTY2eW1hanJoaHVmMCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/13GIgrGdslD9oQ/giphy.gif" 
+  width="500" height="300">
+</p>
