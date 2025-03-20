@@ -39,7 +39,7 @@ const weather = {
     fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + this.apiKey)
     .then(response => {
       if (!response.ok) {
-        alert('Enter the city name correctly')
+         alert('Enter the city name correctly')
         throw new Error("City not found!");
         
       }
@@ -50,7 +50,7 @@ const weather = {
       this.fetchCForecast(data.coord.lat,data.coord.lon)
     })
     .catch(error => {
-      alert('enter the city name correctly')
+      
       console.error("Error CCfetching weather data:", error);
     
     });
@@ -90,7 +90,7 @@ const weather = {
   },
   displayCForecast: function(data) {
     const daysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-    console.log('this is displayforecase')
+   
     this.forecastData = data.daily.slice(1).map(day => {
       const date = new Date(day.dt * 1000);
       return {
@@ -195,7 +195,7 @@ const weather = {
     }
     this.celsiusTemp = data.main.temp;
     this.updateCTempDisplay();
-    document.querySelector(".cbox .toggle-checkbox").checked = !this.isCelsius;
+    document.querySelector(".cbox .ctoggle-checkbox").checked = !this.isCelsius;
 },
   updateTempDisplay: function() {
     const temp = this.isCelsius ? 
@@ -365,7 +365,7 @@ weather.toggleCUnit()
 // Add event listeners for the compare functionality
 document.querySelector(".cbutton").addEventListener("click", function() {
   const compareText = document.querySelector(".ctext").value;
-  console.log("City to compare:", compareText);
+  
   weather.fetchCWeather(compareText)
 });
 

@@ -340,6 +340,83 @@ button {
   transform: translateX(36px) scale(1.1);
 }
 
+.ctoggle-switch {
+  position: relative;
+  display: block;
+  width: 70px;
+  height: 34px;
+  background-color: #7c7c7c4d;
+  border-radius: 34px;
+  transition: all 0.3s ease;
+}
+
+.ctoggle-slider {
+  position: absolute;
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.ctoggle-switch span {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 0.85em;
+  font-weight: bold;
+  color: white;
+  transition: opacity 0.3s ease;
+}
+
+.ccelsius {
+  left: 10px;
+}
+
+.cfahrenheit {
+  right: 10px;
+}
+
+/* Checked state */
+.ctoggle-checkbox:checked + .ctoggle-switch {
+  background-color: #2196F3;
+}
+
+.ctoggle-checkbox:checked + .ctoggle-switch .ctoggle-slider {
+  transform: translateX(36px);
+}
+
+.ctoggle-checkbox:checked + .ctoggle-switch .ccelsius {
+  opacity: 0.5;
+}
+
+.ctoggle-checkbox:checked + .ctoggle-switch .cfahrenheit {
+  opacity: 1;
+}
+
+.ctoggle-checkbox:not(:checked) + .ctoggle-switch .ccelsius {
+  opacity: 1;
+}
+
+.ctoggle-checkbox:not(:checked) + .ctoggle-switch .cfahrenheit {
+  opacity: 0.5;
+}
+
+/* Hover effects */
+.cunit-toggle:hover .ctoggle-switch {
+  background-color: #7c7c7c6b;
+}
+
+.cunit-toggle:hover .ctoggle-slider {
+  transform: scale(1.1);
+}
+
+.cunit-toggle:hover .ctoggle-checkbox:checked + .ctoggle-switch .ctoggle-slider {
+  transform: translateX(36px) scale(1.1);
+}
 @media (max-width: 480px) {
   .toggle-switch {
     width: 60px;
@@ -507,7 +584,13 @@ color: white;
   .search-bar {
       width: 100%;
   }
-
+  .boxess{
+    display: flex;
+    flex-direction: column;
+  }
+  .csearch{
+    margin-top: 25px;
+  }
   .forecast-container {
       display: flex; /* Use flexbox to make items horizontal */
       gap: 10px;
@@ -522,6 +605,7 @@ color: white;
       padding: 0.5em;
       scroll-snap-align: start; /* Snap to each item */
   }
+
 }
 
 @media (max-width: 480px) {
