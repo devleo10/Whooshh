@@ -28,6 +28,28 @@ body {
 .box:hover {
   transform: scale(1.02);
 }
+.boxess{
+  display: flex;
+  align-items: center;
+  gap: 40px;
+}
+
+.cbox{
+  max-width: 600px;
+  background: rgba(0, 0, 0, 0.85);
+  color: white;
+  padding: 2.5em;
+  border-radius: 20px;
+  width: 100%;
+  box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+  transition: transform 0.3s ease;
+  max-height: 80vh; /* Limit max-height to keep background visible */
+  overflow-y: auto; /* Allow scrolling if content overflows */
+
+}
+.cbox:hover {
+  transform: scale(1.02);
+}
 .flex{
   display: flex;
   align-items: center;
@@ -62,6 +84,31 @@ body {
   transition: 0.2s ease-in-out;
 
 }
+.cbutton{
+  border-radius: 20%;
+  border:none;
+  outline: none;
+  height: 2.5em;
+  width: 5.5em;
+  background-color: #1b1a1ae5;
+  color:white;
+  transition: 0.2s ease-in-out;
+}
+.ctext{
+  border-radius: 50%;
+  border:none;
+  outline: none;
+  height: 2.5em;
+  width: 3.5em;
+  background-color: #0404042e;
+  color:rgb(0, 0, 0);
+  transition: 0.2s ease-in-out;
+}
+.csearch{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 .search-button:hover {
 background-color: rgba(255, 255, 255, 0.3);
 transform: scale(1.0);
@@ -79,6 +126,18 @@ input.search-bar{
   padding:0.5em ;
   border-radius:20px;
   background-color: #7c7c7c2e;
+  color:white;
+  font-family: inherit;
+  font-size: 100%;
+  margin-right: auto;
+}
+input.ctext{
+  width:70%;
+  border:none;
+  outline: none;
+  padding:0.5em ;
+  border-radius:20px;
+  background-color: #131212f0;
   color:white;
   font-family: inherit;
   font-size: 100%;
@@ -184,12 +243,23 @@ button {
   display: inline-block;
   cursor: pointer;
 }
+.cunit-toggle {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
 
 .toggle-checkbox {
   opacity: 0;
   width: 0;
   height: 0;
   position: absolute;
+}
+.ctoggle-checkbox{
+  opacity: 0;
+  width: 0;
+  height: 0;
+  position:absolute;
 }
 
 .toggle-switch {
@@ -395,7 +465,14 @@ color: white;
   overflow-x: auto; /* Allow horizontal scrolling */
   scroll-snap-type: x mandatory; /* Add snap effect when scrolling */
 }
-
+.cforecast-container {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* 7 items in a row */
+  gap: 10px;
+  margin-top: 20px;
+  overflow-x: auto; /* Allow horizontal scrolling */
+  scroll-snap-type: x mandatory; /* Add snap effect when scrolling */
+}
 .forecast-item {
   background: rgba(59, 56, 56, 0.2);
   padding: 10px;

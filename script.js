@@ -35,6 +35,26 @@ const weather = {
         this.displayError();
       });
   },
+  fetchCWeather:function(city){
+    fetch("https://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=" + this.apiKey)
+    .then(response => {
+      if (!response.ok) {
+        alert('Enter the city name correctly')
+        throw new Error("City not found!");
+        
+      }
+      return response.json();
+    })
+    .then(data => {
+      this.displayCweather(data)
+      this.fetchCForecast(data.coord.lat,data.coord.lon)
+    })
+    .catch(error => {
+      alert('enter the city name correctly')
+      console.error("Error CCfetching weather data:", error);
+    
+    });
+  },
 
    fetchForecast: function(lat, lon) {
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,hourly,curremt&appid=5796abbde9106b7da4febfae8c44c232`)
@@ -42,7 +62,12 @@ const weather = {
       .then(data => this.displayForecast(data))
       .catch(error => console.error("Error fetching forecast:", error));
   },
-
+   fetchCForecast :function(lat,lon){
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,hourly,curremt&appid=5796abbde9106b7da4febfae8c44c232`)
+    .then(response => response.json())
+      .then(data => this.displayCForecast(data))
+      .catch(error => console.error("Error fetching forecast:", error));
+   },
   displayForecast: function(data) {
     const daysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
   
@@ -63,9 +88,47 @@ const weather = {
   
     this.displayForecastItems(); // Call function to render forecast items
   },
+  displayCForecast: function(data) {
+    const daysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    console.log('this is displayforecase')
+    this.forecastData = data.daily.slice(1).map(day => {
+      const date = new Date(day.dt * 1000);
+      return {
+        date: date.toLocaleDateString("en-US", { weekday: "short" }),
+        dayIndex: date.getDay(), // Store numeric day index for sorting
+        icon: day.weather[0].icon,
+        description: day.weather[0].description,
+        tempC: day.temp.day, // Store Celsius temperature
+        tempF: (day.temp.day * 9/5) + 32 // Store Fahrenheit temperature
+      };
+    });
+  
+    // Sort forecastData based on the correct order of weekdays
+    this.forecastData.sort((a, b) => daysOrder.indexOf(a.date) - daysOrder.indexOf(b.date));
+  
+    this.displayCForecastItems(); // Call function to render forecast items
+  },
   
   displayForecastItems: function() {
     const forecastContainer = document.querySelector(".forecast-container");
+    forecastContainer.innerHTML = ""; // Clear the container before updating
+  
+    this.forecastData.forEach((day) => {
+      const temp = this.isCelsius ? day.tempC : day.tempF; // Choose correct unit
+  
+      const forecastItem = document.createElement("div");
+      forecastItem.classList.add("forecast-item");
+      forecastItem.innerHTML = `
+        <p>${day.date}</p>
+        <img src="https://openweathermap.org/img/wn/${day.icon}.png" alt="${day.description}">
+        <p>${Math.round(temp)}°${this.isCelsius ? 'C' : 'F'}</p>
+      `;
+  
+      forecastContainer.appendChild(forecastItem);
+    });
+  },
+  displayCForecastItems: function() {
+    const forecastContainer = document.querySelector(".cforecast-container");
     forecastContainer.innerHTML = ""; // Clear the container before updating
   
     this.forecastData.forEach((day) => {
@@ -111,22 +174,59 @@ const weather = {
     this.updateTempDisplay();
     document.querySelector(".toggle-checkbox").checked = !this.isCelsius;
   },
+  displayCweather: function(data) {
+    const { name } = data;
+    const { icon, description } = data.weather[0];
+    const { temp, humidity } = data.main;
+    const { speed } = data.wind;
+    this.updateCTempDisplay()
+    // Update HTML elements with proper class selectors
+    document.querySelector('.ccity').innerText = "Weather in " + name;
+    document.querySelector('.ctemp').innerText = temp + "°C";
+    document.querySelector('.cdescription').innerText = description;
+    document.querySelector('.chumidity').innerText = "Humidity: " + humidity + "%";
+    document.querySelector('.cwind').innerText = "Wind Speed: " + speed + "km/h";
+    document.querySelector('.ctext').value = " "
+    
+    // Update icon
+    const iconElement = document.querySelector('.cbox .icon');
+    if (iconElement) {
+        iconElement.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+    }
+    this.celsiusTemp = data.main.temp;
+    this.updateCTempDisplay();
+    document.querySelector(".cbox .toggle-checkbox").checked = !this.isCelsius;
+},
   updateTempDisplay: function() {
     const temp = this.isCelsius ? 
       this.celsiusTemp : 
       (this.celsiusTemp * 9/5) + 32;
       document.querySelector(".temp").textContent = `${Math.round(temp)}°${this.isCelsius ? 'C' : 'F'}`;
   },
-
+  updateCTempDisplay:function(){
+    const temp = this.isCelsius ? 
+    this.celsiusTemp : 
+    (this.celsiusTemp * 9/5) + 32;
+    document.querySelector(".ctemp").textContent = `${Math.round(temp)}°${this.isCelsius ? 'C' : 'F'}`;
+  },
   toggleUnit: function() {
     this.isCelsius = !this.isCelsius;
     this.updateTempDisplay();
-    this.displayForecastItems(); // Ensure forecast updates when switching units
+    this.displayForecastItems(); 
+      /// Ensure forecast updates when switching units
   },
-  
+  toggleCUnit:function(){
+    this.isCelsius = !this.isCelsius;
+    this.updateCTempDisplay();  // Add this line to update compared city temperature
+    this.displayCForecastItems();
+  },
   updateTempDisplay: function() {
     const temp = this.isCelsius ? this.celsiusTemp : (this.celsiusTemp * 9/5) + 32;
     document.querySelector(".temp").textContent = `${Math.round(temp)}°${this.isCelsius ? 'C' : 'F'}`;
+  },
+  updateCTempDisplay:function(){
+   const temp =this.isCelsius ? this.celsiusTemp : (this.celsiusTemp * 9/5) + 32;
+   document.querySelector(".ctemp").textContent = `${Math.round(temp)}°${this.isCelsius ? 'C' : 'F'}`;
   },
 
   // Method to fetch a background image from Unsplash
@@ -252,6 +352,27 @@ document.querySelector(".unit-toggle").addEventListener("click", function() {
 });
 document.querySelector(".toggle-checkbox").addEventListener("change", function() {
   weather.toggleUnit();
+});
+document.querySelector(".cunit-toggle").addEventListener("click", function() {
+
+weather.toggleCUnit()
+});
+document.querySelector(".ctoggle-checkbox").addEventListener("change", function() {
+
+weather.toggleCUnit()
+});
+
+// Add event listeners for the compare functionality
+document.querySelector(".cbutton").addEventListener("click", function() {
+  const compareText = document.querySelector(".ctext").value;
+  console.log("City to compare:", compareText);
+  weather.fetchCWeather(compareText)
+});
+
+document.querySelector(".ctext").addEventListener("keyup", function(event) {
+  if (event.key === "Enter") {
+      console.log("City to comparedd:", this.value);
+  }
 });
 document.querySelector(".geolocation-btn").addEventListener("click", () => {
   if (navigator.geolocation) {
