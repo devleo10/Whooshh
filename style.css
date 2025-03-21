@@ -431,6 +431,9 @@ button {
   .toggle-checkbox:checked + .toggle-switch .toggle-slider {
     transform: translateX(30px);
   }
+   .boxess{
+    max-width: 80%;
+  }
 }
 .toggle-switch {
   transition: background-color 0.3s ease;
