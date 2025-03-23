@@ -10,14 +10,14 @@ const weather = {
       .then(data => {
         this.displayWeather(data);
         this.fetchAirQuality(data.coord.lat, data.coord.lon);
-        this.setBackgroundImage(city);
-        this.fetchForecast(data.coord.lat, data.coord.lon);
+        this.setBackgroundImage(city); // Set city-based background
       })
       .catch(error => {
         console.error("Error fetching weather data:", error);
         this.displayError();
       });
-  },
+},
+
 
   fetchAirQuality: function (lat, lon) {
     fetch(`https://api.openweathermap.org/data/2.5/air_pollution?lat=${lat}&lon=${lon}&appid=${this.apiKey}`)
@@ -36,19 +36,12 @@ const weather = {
       .catch(error => console.error("Error fetching extra weather data:", error));
   },
 
-  fetchForecast: function (lat, lon) {
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,hourly,current&appid=${this.apiKey}`)
-      .then(response => response.json())
-      .then(data => this.displayForecast(data))
-      .catch(error => console.error("Error fetching forecast:", error));
-  },
-
   displayWeather: function (data) {
     const { name } = data;
     const { temp, humidity, pressure } = data.main;
     const { speed } = data.wind;
     const { visibility } = data;
-    const { description, icon } = data.weather[0];
+    const { description } = data.weather[0];
 
     document.querySelector(".city").innerText = `Weather in ${name}`;
     document.querySelector(".temp").innerText = `${Math.round(temp)}°C`;
@@ -57,68 +50,66 @@ const weather = {
     document.querySelector(".visibility").innerText = `Visibility: ${visibility / 1000} km`;
     document.querySelector(".pressure").innerText = `Pressure: ${pressure} hPa`;
     document.querySelector(".description").innerText = description.charAt(0).toUpperCase() + description.slice(1);
-    document.querySelector(".icon").src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
 
+    // Update weather icon
     this.updateWeatherIcon(description);
-    this.celsiusTemp = temp;
-    this.updateTempDisplay();
-    document.querySelector(".box").style.opacity = "1";
-    document.querySelector(".error-container").style.display = "none";
   },
 
-  displayForecast: function (data) {
-    const daysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  updateWeatherIcon: function (description) {
+    const weatherIcons = {
+      "clear sky": "fa-sun",
+      "few clouds": "fa-cloud-sun",
+      "scattered clouds": "fa-cloud",
+      "broken clouds": "fa-cloud",
+      "shower rain": "fa-cloud-showers-heavy",
+      "rain": "fa-cloud-rain",
+      "thunderstorm": "fa-bolt",
+      "snow": "fa-snowflake",
+      "mist": "fa-smog"
+    };
 
-    this.forecastData = data.daily.slice(1).map(day => {
-      const date = new Date(day.dt * 1000);
-      return {
-        date: date.toLocaleDateString("en-US", { weekday: "short" }),
-        dayIndex: date.getDay(),
-        icon: day.weather[0].icon,
-        description: day.weather[0].description,
-        tempC: day.temp.day,
-        tempF: (day.temp.day * 9/5) + 32
-      };
-    });
-
-    this.forecastData.sort((a, b) => daysOrder.indexOf(a.date) - daysOrder.indexOf(b.date));
-    this.displayForecastItems();
+    const iconClass = weatherIcons[description.toLowerCase()] || "fa-cloud";
+    document.querySelector(".weather-icon").className = `weather-icon fas ${iconClass}`;
   },
 
-  displayForecastItems: function () {
-    const forecastContainer = document.querySelector(".forecast-container");
-    forecastContainer.innerHTML = "";
-
-    this.forecastData.forEach(day => {
-      const temp = this.isCelsius ? day.tempC : day.tempF;
-
-      const forecastItem = document.createElement("div");
-      forecastItem.classList.add("forecast-item");
-      forecastItem.innerHTML = `
-        <p>${day.date}</p>
-        <img src="https://openweathermap.org/img/wn/${day.icon}.png" alt="${day.description}">
-        <p>${Math.round(temp)}°${this.isCelsius ? 'C' : 'F'}</p>
-      `;
-
-      forecastContainer.appendChild(forecastItem);
-    });
+  displayAirQuality: function (data) {
+    const aqi = data.list[0].main.aqi;
+    let aqiStatus = ["Good", "Fair", "Moderate", "Poor", "Very Poor"][aqi - 1] || "Unknown";
+    document.querySelector(".air").innerText = `Air Quality: ${aqiStatus}`;
   },
 
-  toggleUnit: function () {
-    this.isCelsius = !this.isCelsius;
-    this.updateTempDisplay();
-    this.displayForecastItems();
-  },
-
-  updateTempDisplay: function () {
-    const temp = this.isCelsius ? this.celsiusTemp : (this.celsiusTemp * 9/5) + 32;
-    document.querySelector(".temp").textContent = `${Math.round(temp)}°${this.isCelsius ? 'C' : 'F'}`;
+  displayExtraData: function (data) {
+    const { uvi, dew_point } = data.current;
+    document.querySelector(".uv").innerText = `UV Index: ${uvi}`;
+    document.querySelector(".dew").innerText = `Dew Point: ${dew_point}°C`;
   },
 
   setBackgroundImage: function (city) {
-    const query = city.split(" ").join("+");
+    const query = city.split(" ").join("+"); // Format city name for search
+
+    // Use Google Image Search Randomizer (via Unsplash source)
     const googleImageSearchUrl = `https://source.unsplash.com/1600x900/?${query}`;
+
+    // Set the background image
     document.body.style.backgroundImage = `url(${googleImageSearchUrl})`;
+
+    console.log("Background Image URL:", googleImageSearchUrl); // ✅ Debugging
+},
+
+
+  search: function () {
+    this.fetchWeather(document.querySelector(".search-bar").value);
+  },
+
+  fetchWeatherByCoords: function (lat, lon) {
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${this.apiKey}`)
+      .then(response => response.json())
+      .then(data => {
+        this.displayWeather(data);
+        this.fetchAirQuality(lat, lon);
+        this.setBackgroundImage(data.weather[0].description);
+      })
+      .catch(error => console.error("Error fetching weather by coordinates:", error));
   },
 
   displayError: function () {
@@ -127,11 +118,15 @@ const weather = {
 };
 
 // Event Listeners
-document.querySelector(".search-button").addEventListener("click", () => weather.search());
-document.querySelector(".search-bar").addEventListener("keyup", event => {
-  if (event.key === "Enter") weather.search();
+document.querySelector(".search-button").addEventListener("click", function () {
+  weather.search();
 });
-document.querySelector(".geolocation-btn").addEventListener("click", () => {
+document.querySelector(".search-bar").addEventListener("keyup", function (event) {
+  if (event.key === "Enter") {
+    weather.search();
+  }
+});
+document.querySelector(".geolocation-btn").addEventListener("click", function () {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
       position => weather.fetchWeatherByCoords(position.coords.latitude, position.coords.longitude),
