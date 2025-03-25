@@ -637,3 +637,15 @@ color: white;
       font-size: 0.8rem;
   }
 }
+.mute{
+  height: 40px;
+  width: 40px;
+ 
+}
+.vol{
+  height: 40px;
+  width: 40px;
+}
+#stopSoundButton{
+  background: rgba(0, 0, 0, 0.078);
+}
