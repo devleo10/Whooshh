@@ -1,10 +1,12 @@
 // Define an object named 'weather' to store weather-related data and methods
+let soundEnabled = true;
+let audio = document.getElementById("weatherSound");
 const weather = {
   // API key for accessing the OpenWeatherMap API
   apiKey: "5c52164e53557f5608b4e45fbc3756f7",
   celsiusTemp: null,
   isCelsius: true,
-
+  
   // Geolocation Weather Fetch
   fetchWeatherByCoords: function(lat, lon) {
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${this.apiKey}`)
@@ -146,7 +148,20 @@ const weather = {
     });
   },
   
+  stopsound:function(){
+    if (audio && !audio.paused) {
+      audio.pause();
+      //audio.currentTime = 0;
+  }
+  
+  soundEnabled = false; // Disable sound globally
+ 
 
+  },
+  continuesound:function(){
+    audio.play()
+    soundEnabled=true
+  },
   // Method to display weather information on the webpage
   displayWeather: function(data) {
     // Destructure relevant data from the response object
@@ -158,6 +173,83 @@ const weather = {
     this.updateTempDisplay();
     
     // Update HTML elements with the extracted weather information
+   
+    
+      const descriptionz = data.weather[0].description.toLowerCase(); // Convert to lowercase for consistency
+      
+   
+    soundEnabled = true
+      
+          if (!soundEnabled) {
+             
+              return; // Don't play sound if user disabled it
+          }
+      
+         
+          
+          // Check if audio element exists
+          if (!audio) {
+              audio = new Audio();
+              audio.id = "weatherSound";
+              document.body.appendChild(audio);
+          }
+      
+          // Stop previous sound if playing
+          if (!audio.paused) {
+              audio.pause();
+              audio.currentTime = 0;
+          }
+      
+          // Set correct audio source based on weather condition
+          if (
+            descriptionz.includes("clear sky") ||
+            descriptionz.includes("few clouds") ||
+            descriptionz.includes("scattered clouds") ||
+            descriptionz.includes("broken clouds") ||
+            descriptionz.includes("overcast clouds")
+        ) {
+            audio.src = "./assests/clearsky.mp3";
+        } else if (
+            descriptionz.includes("light rain") ||
+            descriptionz.includes("moderate rain") ||
+            descriptionz.includes("heavy rain") ||
+            descriptionz.includes("shower rain") ||
+            descriptionz.includes("drizzle")
+        ) {
+            audio.src = "./assests/rain-sound.mp3";
+        } else if (
+            descriptionz.includes("thunderstorm") ||
+            descriptionz.includes("thunderstorm with rain") ||
+            descriptionz.includes("thunderstorm with heavy rain")
+        ) {
+            audio.src = "./assests/rnt.mp3";
+        } else if (
+            descriptionz.includes("haze") ||
+            descriptionz.includes("mist") ||
+            descriptionz.includes("fog") ||
+            descriptionz.includes("smoke") ||
+            descriptionz.includes("dust")
+        ) {
+            audio.src = "./assests/wind.mp3";
+        } else {
+            audio.src = "./assets/default.mp3"; // Default sound
+        }
+        
+      
+          // Play the audio
+          audio.load();
+          audio.oncanplaythrough = () => {
+              audio.play().catch(error => console.error("Error playing audio:", error));
+          };
+      
+      
+      // Stop Sound Permanently Until Re-enabled
+    
+      
+      // Add Event Listener to Stop Button
+     
+      
+  
     document.querySelector('.box').style.opacity = "1";
     document.querySelector(".error-container").style.display = "none";
     document.querySelector(".retry-search").value = "";
@@ -297,7 +389,7 @@ const weather = {
   }
 
 };
-// Add geolocation event listener
+
 document.querySelector(".geolocation-btn").addEventListener("click", function() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(
@@ -316,6 +408,9 @@ document.querySelector(".geolocation-btn").addEventListener("click", function() 
   }
 });
 // Add loading state during geolocation detection
+document.getElementById("StartButton").addEventListener("click", function(){
+  weather.continuesound()
+});
 document.querySelector(".geolocation-btn").addEventListener("click", function() {
   this.classList.add('loading');
   
@@ -341,6 +436,16 @@ document.querySelector(".search button").addEventListener("click", function() {
 });
 
 // Add an event listener to the search bar to trigger the weather search when the Enter key is pressed
+const volumeSlider = document.getElementById("volumeSlider");
+
+// Function to update audio volume
+volumeSlider.addEventListener("input", function () {
+    const audio = document.getElementById("weatherSound");
+    if (audio) {
+     
+        audio.volume = volumeSlider.value / 100; // Convert range (0-100) to (0-1)
+    }
+});
 document.querySelector(".search-bar").addEventListener("keyup", function(event) {
   // Check if the pressed key is Enter, and if true, call the search method
   if (event.key === "Enter") {
@@ -363,6 +468,10 @@ weather.toggleCUnit()
 });
 
 // Add event listeners for the compare functionality
+document.getElementById("stopSoundButton").addEventListener("click", function(){
+  weather.stopsound()
+});
+
 document.querySelector(".cbutton").addEventListener("click", function() {
   const compareText = document.querySelector(".ctext").value;
   
