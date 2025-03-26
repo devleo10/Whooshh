@@ -20,7 +20,10 @@ const weather = {
       // Handle the response by converting it to JSON
       .then(response => {
         if (!response.ok) {
+
           throw new Error("City not found!");
+        }else{
+
         }
         return response.json();
       })
@@ -40,8 +43,15 @@ const weather = {
     .then(response => {
       if (!response.ok) {
          alert('Enter the city name correctly')
+         const boxs = document.querySelector(".cbox");
+         boxs.style.display ="none";
+
         throw new Error("City not found!");
         
+      }else{
+        const boxs = document.querySelector(".cbox");
+        boxs.style.display ="block";
+
       }
       return response.json();
     })
@@ -297,6 +307,13 @@ const weather = {
   }
 
 };
+
+// Cross button event listener
+document.querySelector(".cross").addEventListener("click",function(){
+        const boxs = document.querySelector(".cbox");
+        boxs.style.display ="none";
+})
+
 // Add geolocation event listener
 document.querySelector(".geolocation-btn").addEventListener("click", function() {
   if (navigator.geolocation) {
