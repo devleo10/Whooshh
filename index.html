@@ -65,7 +65,8 @@
 
   <div class="cbox">
     <div class="cweather">
-      <h1 class="ccity">---</h1>
+      <div class="top-container"><h1 class="ccity">---</h1> <div class="cross"></div>
+    </div>
       <div class="temp-container">
         <h1 class="ctemp">--°C</h1>
         <label class="cunit-toggle">
@@ -89,8 +90,9 @@
   </div>
 </div>
 <div class="csearch">
-  <input type="text" class="ctext" placeholder="enter the city to compare"> 
-  <button class="cbutton">compare</button>
+  <input type="text" class="ctext" id="compt" placeholder="Enter city name..." autofocus>
+  <button class="cbutton" id="compb">Compare</button>
+  
 </div>
   <div class="error-container">
     <div class="error-box">
