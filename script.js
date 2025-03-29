@@ -391,3 +391,5 @@ document.querySelector(".geolocation-btn").addEventListener("click", () => {
 });
 // Initially fetch weather data for the city "Kolkata" when the script is loaded
 weather.fetchWeather("Kolkata");
+
+
