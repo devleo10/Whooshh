@@ -57,20 +57,53 @@ const weather = {
   },
 
    fetchForecast: function(lat, lon) {
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,hourly,curremt&appid=5796abbde9106b7da4febfae8c44c232`)
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely&appid=5796abbde9106b7da4febfae8c44c232`)
       .then(response => response.json())
-      .then(data => this.displayForecast(data))
+      .then(data =>{ 
+        this.displayForecast(data);
+
+      this.hourlyData = data.hourly.slice(0, 24).map((hour) => ({
+          time: new Date(hour.dt * 1000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}),
+          temp:hour.temp,
+        }));
+
+      this.weeklyData = data.daily.slice(0,7).map((day)=>({
+        date: new Date(day.dt * 1000).toLocaleTimeString([], {weekday: 'short'}),
+        temp:day.temp.day,
+      }) )
+
+
+      const today = new Date();
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      
+      const currentTemp = data.current.temp;
+      this.monthlyData = [];
+      
+      for (let i = 0; i < 12; i++) {
+        const monthIndex = (today.getMonth() + i) % 12;
+        const seasonalOffset = Math.sin(((monthIndex - 6) / 12) * 2 * Math.PI) * 10;
+        
+        this.monthlyData.push({
+          time: monthNames[monthIndex],
+          temp: currentTemp + seasonalOffset,
+        });
+      }
+
+      console.log(this.weeklyData)
+      console.log(this.hourlyData)
+      console.log(this.monthlyData)
+   })
       .catch(error => console.error("Error fetching forecast:", error));
   },
    fetchCForecast :function(lat,lon){
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,hourly,curremt&appid=5796abbde9106b7da4febfae8c44c232`)
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,curremt&appid=5796abbde9106b7da4febfae8c44c232`)
     .then(response => response.json())
       .then(data => this.displayCForecast(data))
       .catch(error => console.error("Error fetching forecast:", error));
    },
   displayForecast: function(data) {
     const daysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  
+    
     this.forecastData = data.daily.slice(1).map(day => {
       const date = new Date(day.dt * 1000);
       return {
@@ -244,7 +277,7 @@ const weather = {
       const data = await response.json();
       if (data.photos.length > 0) {
         const randomIndex = Math.floor(Math.random() * data.photos.length);
-        document.body.style.backgroundImage = `url(${data.photos[randomIndex].src.landscape})`;
+        document.querySelector(".section1").style.backgroundImage = `url(${data.photos[randomIndex].src.landscape})`;
       } else {
         this.setFallbackBackgroundImage();
       }
@@ -255,7 +288,7 @@ const weather = {
   },
 
   setFallbackBackgroundImage: function () {
-    document.body.style.backgroundImage = "url('https://plus.unsplash.com/premium_photo-1675368244123-082a84cf3072?q=80&w=2150&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
+    document.querySelector(".section1").style.backgroundImage = "url('https://plus.unsplash.com/premium_photo-1675368244123-082a84cf3072?q=80&w=2150&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
   },
 
   // Method to initiate a weather search based on the entered value in the search bar
@@ -338,13 +371,17 @@ document.querySelector(".geolocation-btn").addEventListener("click", function() 
 // Add an event listener to the search button to trigger the weather search when clicked
 document.querySelector(".search button").addEventListener("click", function() {
   weather.search();
+  const city = document.querySelector(".search-bar").value;
+  weather.fetchWeather(city);
 });
 
 // Add an event listener to the search bar to trigger the weather search when the Enter key is pressed
 document.querySelector(".search-bar").addEventListener("keyup", function(event) {
   // Check if the pressed key is Enter, and if true, call the search method
   if (event.key === "Enter") {
+    const city = document.querySelector(".search-bar").value;
     weather.search();
+    weather.fetchWeather(city);
   }
 });
 document.querySelector(".unit-toggle").addEventListener("click", function() {
@@ -391,3 +428,68 @@ document.querySelector(".geolocation-btn").addEventListener("click", () => {
 });
 // Initially fetch weather data for the city "Kolkata" when the script is loaded
 weather.fetchWeather("Kolkata");
+
+document.querySelector(".hourly-btn").addEventListener("click", function () {
+  weatherChart(weather.hourlyData , "hourly");
+  console.log("Hourly data:", weatherChart(weather.hourlyData));
+});
+
+document.querySelector(".weekly-btn").addEventListener("click", function () {
+
+   weatherChart(weather.weeklyData ,"weekly"); 
+    console.log("Weekly data:", weatherChart(weather.weeklyData));
+});
+
+document.querySelector(".monthly-btn").addEventListener("click", function () {
+  weatherChart(weather.monthlyData, "monthly");
+})
+
+let myChart;
+
+function weatherChart(data ,type) {
+  const ctx = document.getElementById("myChart").getContext("2d");
+  // let labels , temperatures;
+  console.log("Chart data:", data);
+  if (type === "hourly") {
+    labels = data.map((hour) => hour.time);
+    temperatures = data.map((hour) => hour.temp);
+  } else if (type === "weekly") {
+    labels = data.map((day) => day.date);
+    temperatures = data.map((day) => day.temp);
+  } 
+  else if (type === "monthly") {
+    labels = data.map((month) => month.time);
+    temperatures = data.map((month) => month.temp);
+  }
+  if (myChart) {
+    myChart.data.labels = labels;
+    myChart.data.datasets[0].data = temperatures;
+    myChart.update();
+  } else {
+    myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: labels ,
+        datasets: [
+          {
+            label: "Temperature (°C)",
+            data: temperatures,
+            backgroundColor: "rgba(54, 162, 235, 0.2)",
+            borderColor: "rgba(54, 162, 235, 1)",
+            borderWidth: 1,
+            tension: 0,
+          },
+        ],
+      },
+      options: {
+        maintainAspectRatio: false,
+        scales: {
+
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  }
+}

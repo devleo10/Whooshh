@@ -11,9 +11,15 @@
   <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" href="/images/png.png" type="image/x-icon">
   <script src="script.js" defer></script>
+  <script src="
+  https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js
+  "></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
 </head>
 
 <body>
+  <section class="section1">
   <div class="boxess">
   <div class="box">
     <div class="search">
@@ -100,6 +106,19 @@
         <button class="retry-button">Search</button>
     </div>
   </div>
-  </body>
+  </section>
+
+<section class="section2">
+  <div class="tempreturetrend" >
+    <canvas id="myChart"></canvas>
+    <div class="Chart-controls">
+      <button class="hourly-btn " >Hourly</button>
+      <button class="weekly-btn " >Weekly</button>
+      <button class="monthly-btn " >Monthly</button>
+    </div>
+  </div>
+</section>
+
+</body>
 
 </html>
