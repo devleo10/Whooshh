@@ -20,7 +20,10 @@ const weather = {
       // Handle the response by converting it to JSON
       .then(response => {
         if (!response.ok) {
+
           throw new Error("City not found!");
+        }else{
+
         }
         return response.json();
       })
@@ -40,8 +43,15 @@ const weather = {
     .then(response => {
       if (!response.ok) {
          alert('Enter the city name correctly')
+         const boxs = document.querySelector(".cbox");
+         boxs.style.display ="none";
+
         throw new Error("City not found!");
         
+      }else{
+        const boxs = document.querySelector(".cbox");
+        boxs.style.display ="block";
+
       }
       return response.json();
     })
@@ -57,6 +67,7 @@ const weather = {
   },
 
    fetchForecast: function(lat, lon) {
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely&appid=5796abbde9106b7da4febfae8c44c232`)
     fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely&appid=5796abbde9106b7da4febfae8c44c232`)
       .then(response => response.json())
       .then(data =>{ 
@@ -76,11 +87,15 @@ const weather = {
       const today = new Date();
       const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       
+      // Use the current temperature as a base and create a simple annual temperature curve
       const currentTemp = data.current.temp;
       this.monthlyData = [];
       
       for (let i = 0; i < 12; i++) {
         const monthIndex = (today.getMonth() + i) % 12;
+        // Create a simple sinusoidal temperature variation throughout the year
+        // Northern hemisphere: warmest in July (6), coldest in January (0)
+        // Southern hemisphere: reverse pattern
         const seasonalOffset = Math.sin(((monthIndex - 6) / 12) * 2 * Math.PI) * 10;
         
         this.monthlyData.push({
@@ -103,6 +118,7 @@ const weather = {
    },
   displayForecast: function(data) {
     const daysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    
     
     this.forecastData = data.daily.slice(1).map(day => {
       const date = new Date(day.dt * 1000);
@@ -278,6 +294,7 @@ const weather = {
       if (data.photos.length > 0) {
         const randomIndex = Math.floor(Math.random() * data.photos.length);
         document.querySelector(".section1").style.backgroundImage = `url(${data.photos[randomIndex].src.landscape})`;
+        document.querySelector(".section1").style.backgroundImage = `url(${data.photos[randomIndex].src.landscape})`;
       } else {
         this.setFallbackBackgroundImage();
       }
@@ -288,6 +305,7 @@ const weather = {
   },
 
   setFallbackBackgroundImage: function () {
+    document.querySelector(".section1").style.backgroundImage = "url('https://plus.unsplash.com/premium_photo-1675368244123-082a84cf3072?q=80&w=2150&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
     document.querySelector(".section1").style.backgroundImage = "url('https://plus.unsplash.com/premium_photo-1675368244123-082a84cf3072?q=80&w=2150&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
   },
 
@@ -330,6 +348,13 @@ const weather = {
   }
 
 };
+
+// Cross button event listener
+document.querySelector(".cross").addEventListener("click",function(){
+        const boxs = document.querySelector(".cbox");
+        boxs.style.display ="none";
+})
+
 // Add geolocation event listener
 document.querySelector(".geolocation-btn").addEventListener("click", function() {
   if (navigator.geolocation) {
