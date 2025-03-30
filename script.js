@@ -96,7 +96,7 @@ const weather = {
       .catch(error => console.error("Error fetching forecast:", error));
   },
    fetchCForecast :function(lat,lon){
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,curremt&appid=5796abbde9106b7da4febfae8c44c232`)
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,current&appid=5796abbde9106b7da4febfae8c44c232`)
     .then(response => response.json())
       .then(data => this.displayCForecast(data))
       .catch(error => console.error("Error fetching forecast:", error));
@@ -445,11 +445,13 @@ document.querySelector(".monthly-btn").addEventListener("click", function () {
 })
 
 let myChart;
-
+let labels;
+let temperatures;
+// Function to create a weather chart using Chart.js
 function weatherChart(data ,type) {
   const ctx = document.getElementById("myChart").getContext("2d");
   // let labels , temperatures;
-  console.log("Chart data:", data);
+  // console.log("Chart data:", data);
   if (type === "hourly") {
     labels = data.map((hour) => hour.time);
     temperatures = data.map((hour) => hour.temp);
