@@ -234,7 +234,7 @@ const weather = {
             descriptionz.includes("smoke") ||
             descriptionz.includes("dust")
         ) {
-            audio.src = "./sound/wind.mp3";
+            audio.src = "./sounds/wind.mp3";
         } else {
             audio.src = "default.mp3"; // Default sound
         }
