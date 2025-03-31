@@ -674,3 +674,35 @@ color: white;
       font-size: 0.8rem;
   }
 }
+.audiobtns{
+  display: flex;
+  gap: 30px;
+  margin-top: 30px;
+  margin-bottom:4px;
+}
+#Continuebutton{
+ 
+  border:none;
+  outline: none;
+ height: 70px;
+ width: 150px;
+  background-color: #1b1a1ae5;
+  color:white;
+  transition: 0.2s ease-in-out;
+  font-size: 18px;
+}
+#Stopbutton{
+ 
+  border:none;
+  outline: none;
+  height: 70px;
+  width: 150px;
+  background-color: #1b1a1ae5;
+  color:white;
+  transition: 0.2s ease-in-out;
+  font-size: 18px;
+}
+.vol{
+  height: 40px;
+  width: 40px;
+}
