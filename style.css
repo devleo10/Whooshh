@@ -458,6 +458,10 @@ button {
   transform: translateX(36px) scale(1.1);
 }
 @media (max-width: 480px) {
+  .bgcard {
+    width: 100%; /* Full width for smallest screens */
+    padding: 10px;
+  }
   .toggle-switch {
     width: 60px;
     height: 30px;
@@ -614,6 +618,17 @@ color: white;
 }
 
 @media (max-width: 768px) {
+  .scards {
+    flex-direction: column; /* Stacks cards vertically */
+    align-items: center; /* Centers them */
+  }
+  .savcards{
+    flex-direction: column; /* Stacks cards vertically */
+    align-items: center; 
+  }
+  .bgcard {
+    width: 90%; /* Expands to fit the screen */
+  }
   body {
     height: auto;
     padding: 20px;
@@ -705,4 +720,31 @@ color: white;
 .vol{
   height: 40px;
   width: 40px;
+}
+.scards{
+  color: white;
+  display: flex;
+  gap: 30px;
+ margin-bottom: 30px;
+}
+.bgcard{
+  display: flex;
+  background-color: #1b1a1ae5;
+  height: 250px;
+  width: 300px;
+  border-radius: 10%;
+}
+.savcards{
+  display: flex;
+  gap:30px;
+  color: white;
+  margin-bottom: 40px;
+}
+#savbutton{
+  color: white;
+  background-color: #06ddfee5;
+  font-size: 16px;
+  width: 100px;
+  height: 50px;
+  margin-bottom: 30px;
 }
