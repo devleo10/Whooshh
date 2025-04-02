@@ -374,10 +374,10 @@ const weather = {
   getalldata: async function() {
     try {
         const [resp1, resp2, resp3, resp4] = await Promise.all([
-            fetch("https://api.openweathermap.org/data/2.5/weather?q=Bangalore&units=metric&appid=5c52164e53557f5608b4e45fbc3756f7"),
-            fetch("https://api.openweathermap.org/data/2.5/weather?q=Hyderabad&units=metric&appid=5c52164e53557f5608b4e45fbc3756f7"),
-            fetch("https://api.openweathermap.org/data/2.5/weather?q=Mumbai&units=metric&appid=5c52164e53557f5608b4e45fbc3756f7"),
-            fetch("https://api.openweathermap.org/data/2.5/weather?q=Delhi&units=metric&appid=5c52164e53557f5608b4e45fbc3756f7")
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=Bangalore&units=metric&appid=${this.apiKey}`),
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=Hyderabad&units=metric&appid=${this.apiKey}`),
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=Mumbai&units=metric&appid=${this.apiKey}`),
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=Delhi&units=metric&appid=${this.apiKey}`)
         ]);
 
         const data1 = await resp1.json();
