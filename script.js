@@ -183,7 +183,7 @@ const weather = {
     this.updateTempDisplay();
     const descriptionz = data.weather[0].description.toLowerCase()
     soundEnabled = true
-      
+    let backgroundImage =""
           if (!soundEnabled) {
              
               return; // Don't play sound if user disabled it
@@ -213,6 +213,8 @@ const weather = {
             descriptionz.includes("overcast clouds")
         ) {
             audio.src = "./sounds/clearsky.mp3";
+            const sunnyImages = ["./images/sunny1.jpg", "./images/sunny2.jpg", "./images/sunny3.jpg"];
+            backgroundImage = sunnyImages[Math.floor(Math.random() * sunnyImages.length)];
         } else if (
             descriptionz.includes("light rain") ||
             descriptionz.includes("moderate rain") ||
@@ -220,12 +222,16 @@ const weather = {
             descriptionz.includes("shower rain") ||
             descriptionz.includes("drizzle")
         ) {
+          const rainyImages = ["./images/rain1.jpg", "./images/rain2.jpg", "./images/rain3.jpg"];
+            backgroundImage = rainyImages[Math.floor(Math.random() * sunnyImages.length)];
             audio.src = "./sounds/rain-sound.mp3";
         } else if (
             descriptionz.includes("thunderstorm") ||
             descriptionz.includes("thunderstorm with rain") ||
             descriptionz.includes("thunderstorm with heavy rain")
         ) {
+          const thunderImages = ["./images/thunder1.jpg", "./images/thunder2.jpg"];
+            backgroundImage = thunderImages[Math.floor(Math.random() * sunnyImages.length)];
             audio.src = "./sounds/rnt.mp3";
         } else if (
             descriptionz.includes("haze") ||
@@ -234,8 +240,12 @@ const weather = {
             descriptionz.includes("smoke") ||
             descriptionz.includes("dust")
         ) {
+          const fogImages = ["./images/fog1.jpg", "./images/fog2.jpg"];
+            backgroundImage = fogImages[Math.floor(Math.random() * sunnyImages.length)];
+         
             audio.src = "./sounds/wind.mp3";
         } else {
+          backgroundImage=" "
             audio.src = "default.mp3"; // Default sound
         }
         
@@ -245,7 +255,7 @@ const weather = {
           audio.oncanplaythrough = () => {
               audio.play().catch(error => console.error("Error playing audio:", error));
           };
-      
+          document.body.style.backgroundImage = `url('${backgroundImage}')`;
     // Update HTML elements with the extracted weather information
     document.querySelector('.box').style.opacity = "1";
     document.querySelector(".error-container").style.display = "none";
@@ -258,13 +268,14 @@ const weather = {
     document.querySelector(".wind").innerText = "Wind Speed: " + speed + "km/h";
 
     // Fetch a background image from Unsplash based on the city
-    this.fetchBackgroundImage(name);
+   // this.fetchBackgroundImage(name);
     this.celsiusTemp = data.main.temp;
     this.updateTempDisplay();
     document.querySelector(".toggle-checkbox").checked = !this.isCelsius;
    
 
   },
+  
   displayCweather: function(data) {
     const { name } = data;
     const { icon, description } = data.weather[0];
@@ -321,33 +332,33 @@ const weather = {
   },
 
   // Method to fetch a background image from Unsplash
-  fetchBackgroundImage: async function (city) {
-    const numImages = 8;
-    const pexelsUrl = `https://api.pexels.com/v1/search?query=${city}&per_page=${numImages}`;
+  // fetchBackgroundImage: async function (city) {
+  //   const numImages = 8;
+  //   const pexelsUrl = `https://api.pexels.com/v1/search?query=${city}&per_page=${numImages}`;
 
-    try {
-      const response = await fetch(pexelsUrl, {
-        headers: { Authorization: "Wd0z8xbKGAwsn0jOdOwXHaFd4jHy9KcT62KjpqhdgM9TSywYzsHoDQrs" }
-      });
+  //   try {
+  //     const response = await fetch(pexelsUrl, {
+  //       headers: { Authorization: "Wd0z8xbKGAwsn0jOdOwXHaFd4jHy9KcT62KjpqhdgM9TSywYzsHoDQrs" }
+  //     });
 
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+  //     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
-      const data = await response.json();
-      if (data.photos.length > 0) {
-        const randomIndex = Math.floor(Math.random() * data.photos.length);
-        document.body.style.backgroundImage = `url(${data.photos[randomIndex].src.landscape})`;
-      } else {
-        this.setFallbackBackgroundImage();
-      }
-    } catch (error) {
-      console.error("Error fetching background image:", error);
-      this.setFallbackBackgroundImage();
-    }
-  },
+  //     const data = await response.json();
+  //     if (data.photos.length > 0) {
+  //       const randomIndex = Math.floor(Math.random() * data.photos.length);
+  //       document.body.style.backgroundImage = `url(${data.photos[randomIndex].src.landscape})`;
+  //     } else {
+  //       this.setFallbackBackgroundImage();
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching background image:", error);
+  //     this.setFallbackBackgroundImage();
+  //   }
+  // },
 
-  setFallbackBackgroundImage: function () {
-    document.body.style.backgroundImage = "url('https://plus.unsplash.com/premium_photo-1675368244123-082a84cf3072?q=80&w=2150&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
-  },
+  // setFallbackBackgroundImage: function () {
+  //   document.body.style.backgroundImage = "url('https://plus.unsplash.com/premium_photo-1675368244123-082a84cf3072?q=80&w=2150&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')";
+  // },
 
   // Method to initiate a weather search based on the entered value in the search bar
   search: function() {
@@ -368,62 +379,7 @@ const weather = {
       });
     },
 
-  //   getalldata: async function() {
-  //     try {
-  //         // Make parallel fetch requests
-  //         const [resp1, resp2, resp3, resp4] = await Promise.all([
-  //             fetch("https://api.openweathermap.org/data/2.5/weather?q=Bangalore&units=metric&appid=5c52164e53557f5608b4e45fbc3756f7"),
-  //             fetch("https://api.openweathermap.org/data/2.5/weather?q=Hyderabad&units=metric&appid=5c52164e53557f5608b4e45fbc3756f7"),
-  //             fetch("https://api.openweathermap.org/data/2.5/weather?q=Mumbai&units=metric&appid=5c52164e53557f5608b4e45fbc3756f7"),
-  //             fetch("https://api.openweathermap.org/data/2.5/weather?q=Delhi&units=metric&appid=5c52164e53557f5608b4e45fbc3756f7")
-  //         ]);
-  
-  //         // Convert responses to JSON
-  //         const data1 = await resp1.json();
-  //         const data2 = await resp2.json();
-  //         const data3 = await resp3.json();
-  //         const data4 = await resp4.json();
-  
-  //         // Log the actual data
-  //         console.log("Bangalore:", data1);
-  //         console.log("Hyderabad:", data2);
-  //         console.log("Mumbai:", data3);
-  //         console.log("Delhi:", data4);
-  //         const { weather: [{ icon, description }] } = data1;
-  //         const { main: { temp, humidity } } = data1;
-  //         const { wind: { speed } } = data1;
-  
-  //         // Update HTML elements correctly
-  //         document.getElementById("btemp").innerText = `${temp}°C`;
-  //         document.getElementById("bdes").innerText = description;
-  //         document.getElementById("bhum").innerText = `Humidity: ${humidity}%`;
-  //         document.getElementById("bwind").innerText = `Wind Speed: ${speed}km/h`;
-  //         const iconElement = document.getElementById('bicon');
-  //         if (iconElement) {
-  //             iconElement.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
-  //         }
 
-
-  //         const { weather: [{ icon, description }] } = data2;
-  //         const { main: { temp, humidity } } = data2;
-  //         const { wind: { speed } } = data2;
-  
-  //         // Update HTML elements correctly
-  //         document.getElementById("htemp").innerText = `${temp}°C`;
-  //         document.getElementById("hdes").innerText = description;
-  //         document.getElementById("hhum").innerText = `Humidity: ${humidity}%`;
-  //         document.getElementById("hwind").innerText = `Wind Speed: ${speed}km/h`;
-  //         const iconElement = document.getElementById('bicon');
-  //         if (iconElement) {
-  //             iconElement.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
-  //         }
-  
-  //     } catch (error) {
-  //         console.error("Error fetching weather data:", error);
-  //     }                             
-  //     // Update icon
-     
-  // },
   getalldata: async function() {
     try {
         const [resp1, resp2, resp3, resp4] = await Promise.all([
@@ -469,44 +425,7 @@ const weather = {
         console.error("Error fetching weather data:", error);
     }
 },
-// saveinfo: async function() {
-//   try {
-//       const fullText = document.getElementById("maincity").innerText;
-//       const city = fullText.replace("Weather in ", "").trim();
-      
-//       const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.apiKey}`;
-//       console.log("Fetching weather for:", city);
-//       console.log(`https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.apiKey}`)
-      
-//       const response = await fetch(url);
-//       const data = await response.json();
-  
-//       console.log("Weather data:", data);
-//       const weatherCard = document.createElement('div');
-//       weatherCard.className = 'bgcard';
-//       weatherCard.innerHTML = `
-//           <div>
-//               <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="weather icon">
-//           </div>
-//           <div>
-//               <h1>${city}</h1>
-//               <h2>${data.main.temp}°C</h2>
-//               <div>${data.weather[0].description}</div>
-//               <div>Humidity: ${data.main.humidity}%</div>
-//               <div>Wind speed: ${data.wind.speed} km/h</div>
-              
-//           </div>
-//       `;
 
-//       // Append the new card to savcards div
-//       document.querySelector('.savcards').appendChild(weatherCard);
-
-//       return data;
-      
-//   } catch (error) {
-//       console.error("Error saving weather info:", error);
-//   }
-// },
 saveinfo: async function() {
   try {
       const fullText = document.getElementById("maincity").innerText;
@@ -687,3 +606,4 @@ document.querySelector(".geolocation-btn").addEventListener("click", () => {
 });
 // Initially fetch weather data for the city "Kolkata" when the script is loaded
 weather.fetchWeather("Kolkata");
+weather.getalldata()
