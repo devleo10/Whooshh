@@ -583,8 +583,10 @@ color: white;
   gap: 10px;
   margin-top: 20px;
   overflow-x: auto; /* Allow horizontal scrolling */
-  scroll-snap-type: x mandatory; /* Add snap effect when scrolling */
+  scroll-snap-type: x mandatory; 
+  padding: 20px; 
 }
+
 .cforecast-container {
   display: grid;
   grid-template-columns: repeat(7, 1fr); /* 7 items in a row */
@@ -594,23 +596,44 @@ color: white;
   scroll-snap-type: x mandatory; /* Add snap effect when scrolling */
 }
 .forecast-item {
-  background: rgba(59, 56, 56, 0.2);
-  padding: 10px;
-  border-radius: 8px;
-  text-align: center;
   transition: 0.3s;
-  border: 1px solid rgba(255, 255, 255, 0.3);
   cursor: pointer;
-  scroll-snap-align: start; /* Align items to the left when scrolling */
+  scroll-snap-align: start; 
+  background: linear-gradient(135deg, rgba(59, 56, 56, 0.5), rgba(0, 0, 0, 0.5));
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 12px; 
+  padding: 13px; 
+  text-align: center; 
 }
 
 .forecast-item:hover {
   background: rgba(255, 255, 255, 0.3);
+  transform: scale(1.05); 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.forecast-item h3 {
+  background: rgba(255, 255, 255, 0.2);
+  transform: scale(1.05); 
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.forecast-item p {
+  font-size: 0.9rem; 
+  color: rgba(255, 255, 255, 0.8); 
 }
 
 .forecast-item img {
-  width: 50px;
-  height: 50px;
+    width: 60px; 
+    height: 60px; 
+    margin-bottom: 10px; 
+}
+
+@media (max-width: 768px) {
+  .forecast-item {
+    min-width: 100px; 
+    padding: 10px; 
+  }
 }
 
 @media (max-width: 768px) {
