@@ -379,62 +379,7 @@ const weather = {
       });
     },
 
-  //   getalldata: async function() {
-  //     try {
-  //         // Make parallel fetch requests
-  //         const [resp1, resp2, resp3, resp4] = await Promise.all([
-  //             fetch("https://api.openweathermap.org/data/2.5/weather?q=Bangalore&units=metric&appid=5c52164e53557f5608b4e45fbc3756f7"),
-  //             fetch("https://api.openweathermap.org/data/2.5/weather?q=Hyderabad&units=metric&appid=5c52164e53557f5608b4e45fbc3756f7"),
-  //             fetch("https://api.openweathermap.org/data/2.5/weather?q=Mumbai&units=metric&appid=5c52164e53557f5608b4e45fbc3756f7"),
-  //             fetch("https://api.openweathermap.org/data/2.5/weather?q=Delhi&units=metric&appid=5c52164e53557f5608b4e45fbc3756f7")
-  //         ]);
   
-  //         // Convert responses to JSON
-  //         const data1 = await resp1.json();
-  //         const data2 = await resp2.json();
-  //         const data3 = await resp3.json();
-  //         const data4 = await resp4.json();
-  
-  //         // Log the actual data
-  //         console.log("Bangalore:", data1);
-  //         console.log("Hyderabad:", data2);
-  //         console.log("Mumbai:", data3);
-  //         console.log("Delhi:", data4);
-  //         const { weather: [{ icon, description }] } = data1;
-  //         const { main: { temp, humidity } } = data1;
-  //         const { wind: { speed } } = data1;
-  
-  //         // Update HTML elements correctly
-  //         document.getElementById("btemp").innerText = `${temp}°C`;
-  //         document.getElementById("bdes").innerText = description;
-  //         document.getElementById("bhum").innerText = `Humidity: ${humidity}%`;
-  //         document.getElementById("bwind").innerText = `Wind Speed: ${speed}km/h`;
-  //         const iconElement = document.getElementById('bicon');
-  //         if (iconElement) {
-  //             iconElement.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
-  //         }
-
-
-  //         const { weather: [{ icon, description }] } = data2;
-  //         const { main: { temp, humidity } } = data2;
-  //         const { wind: { speed } } = data2;
-  
-  //         // Update HTML elements correctly
-  //         document.getElementById("htemp").innerText = `${temp}°C`;
-  //         document.getElementById("hdes").innerText = description;
-  //         document.getElementById("hhum").innerText = `Humidity: ${humidity}%`;
-  //         document.getElementById("hwind").innerText = `Wind Speed: ${speed}km/h`;
-  //         const iconElement = document.getElementById('bicon');
-  //         if (iconElement) {
-  //             iconElement.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
-  //         }
-  
-  //     } catch (error) {
-  //         console.error("Error fetching weather data:", error);
-  //     }                             
-  //     // Update icon
-     
-  // },
   getalldata: async function() {
     try {
         const [resp1, resp2, resp3, resp4] = await Promise.all([
@@ -448,10 +393,10 @@ const weather = {
         const data2 = await resp2.json();
         const data3 = await resp3.json();
         const data4 = await resp4.json();
- console.log(data1)
- console.log(data2)
- console.log(data3)
- console.log(data4)
+// console.log(data1)
+ //console.log(data2)
+ //console.log(data3)
+ //console.log(data4)
         // Helper function to update weather display
         const updateWeatherDisplay = (data, prefix) => {
             const { weather: [{ icon, description }] } = data;
@@ -661,3 +606,4 @@ document.querySelector(".geolocation-btn").addEventListener("click", () => {
 });
 // Initially fetch weather data for the city "Kolkata" when the script is loaded
 weather.fetchWeather("Kolkata");
+weather.getalldata();
