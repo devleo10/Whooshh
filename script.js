@@ -368,7 +368,97 @@ const weather = {
       });
     },
 
+  
+     
+ 
+  getalldata: async function() {
+    try {
+        const [resp1, resp2, resp3, resp4] = await Promise.all([
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=Bangalore&units=metric&appid=${this.apiKey}`),
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=Hyderabad&units=metric&appid=${this.apiKey}`),
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=Mumbai&units=metric&appid=${this.apiKey}`),
+            fetch(`https://api.openweathermap.org/data/2.5/weather?q=Delhi&units=metric&appid=${this.apiKey}`)
+        ]);
 
+        const data1 = await resp1.json();
+        const data2 = await resp2.json();
+        const data3 = await resp3.json();
+        const data4 = await resp4.json();
+ console.log(data1)
+ console.log(data2)
+ console.log(data3)
+ console.log(data4)
+        // Helper function to update weather display
+        const updateWeatherDisplay = (data, prefix) => {
+            const { weather: [{ icon, description }] } = data;
+            const { main: { temp, humidity } } = data;
+            const { wind: { speed } } = data;
+
+            document.getElementById(`${prefix}temp`).innerText = `${temp}°C`;
+            document.getElementById(`${prefix}des`).innerText = description;
+            document.getElementById(`${prefix}hum`).innerText = `Humidity: ${humidity}%`;
+            document.getElementById(`${prefix}wind`).innerText = `Wind Speed: ${speed}km/h`;
+            
+            const iconElement = document.getElementById(`${prefix}icon`);
+            if (iconElement) {
+              console.log(`https://openweathermap.org/img/wn/${icon}@2x.png`)
+                iconElement.src = `https://openweathermap.org/img/wn/${icon}@2x.png`;
+            }
+        };
+
+        
+        updateWeatherDisplay(data1, 'b'); 
+        updateWeatherDisplay(data2, 'h'); 
+        updateWeatherDisplay(data3,'m')
+        updateWeatherDisplay(data4,'d')
+
+    } catch (error) {
+        console.error("Error fetching weather data:", error);
+    }
+},
+
+saveinfo: async function() {
+  try {
+      const fullText = document.getElementById("maincity").innerText;
+      const city = fullText.replace("Weather in ", "").trim();
+      
+      const url = `https://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&appid=${this.apiKey}`;
+      const response = await fetch(url);
+      const data = await response.json();
+
+      const weatherCard = document.createElement('div');
+      weatherCard.className = 'bgcard';
+      weatherCard.innerHTML = `
+          <div>
+              <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" alt="weather icon">
+          </div>
+          <div>
+              <h1>${city}</h1>
+              <h2>${data.main.temp}°C</h2>
+              <div>${data.weather[0].description}</div>
+              <div>Humidity: ${data.main.humidity}%</div>
+              <div>Wind speed: ${data.wind.speed} km/h</div>
+          </div>
+          <button class="remove-card" style="background:#1b1a1ae5; color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer; margin-left: 10px;">
+              ✕
+          </button>
+      `;
+
+      // Add click event listener to remove button
+      const removeButton = weatherCard.querySelector('.remove-card');
+      removeButton.addEventListener('click', () => {
+          weatherCard.remove();
+      });
+
+      // Append the new card to savcards div
+      document.querySelector('.savcards').appendChild(weatherCard);
+
+      return data;
+      
+  } catch (error) {
+      console.error("Error saving weather info:", error);
+  }
+},
   displayError: function() {
     const errorContainer = document.querySelector(".error-container");
     const weatherContainer = document.querySelector('.box');
@@ -433,6 +523,9 @@ document.querySelector(".geolocation-btn").addEventListener("click", function() 
     );
   }
 });
+document.getElementById("savbutton").addEventListener("click",function(){
+  weather.saveinfo()
+})
 // Add an event listener to the search button to trigger the weather search when clicked
 document.querySelector(".search button").addEventListener("click", function() {
   weather.search();
@@ -504,3 +597,4 @@ document.querySelector(".geolocation-btn").addEventListener("click", () => {
 });
 // Initially fetch weather data for the city "Kolkata" when the script is loaded
 weather.fetchWeather("Kolkata");
+weather.getalldata()
