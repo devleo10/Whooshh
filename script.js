@@ -8,6 +8,9 @@ const weather = {
   isCelsius: true,
 
   // Geolocation Weather Fetch
+
+ 
+  
   fetchWeatherByCoords: function(lat, lon) {
     fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&appid=${this.apiKey}`)
       .then(response => response.json())
@@ -204,7 +207,8 @@ const weather = {
               audio.currentTime = 0;
           }
       
-          // Set correct audio source based on weather condition
+          // Set correct audio source based on weather condition 
+          let overlayImg = document.querySelector(".rain-overlay img")
           if (
             descriptionz.includes("clear sky") ||
             descriptionz.includes("few clouds") ||
@@ -213,8 +217,10 @@ const weather = {
             descriptionz.includes("overcast clouds")
         ) {
             audio.src = "./sounds/clearsky.mp3";
-            const sunnyImages = ["./images/sunny1.jpg", "./images/sunny2.jpg", "./images/sunny3.jpg"];
-            backgroundImage = sunnyImages[Math.floor(Math.random() * sunnyImages.length)];
+             const sunnyImages = ["./images/sunny1.jpg", "./images/sunny2.jpg", "./images/sunny3.jpg"];
+             backgroundImage = sunnyImages[Math.floor(Math.random() * sunnyImages.length)];
+             overlayImg.src = "./images/sun2.gif"
+            
         } else if (
             descriptionz.includes("light rain") ||
             descriptionz.includes("moderate rain") ||
@@ -222,16 +228,16 @@ const weather = {
             descriptionz.includes("shower rain") ||
             descriptionz.includes("drizzle")
         ) {
-          const rainyImages = ["./images/rain1.jpg", "./images/rain2.jpg", "./images/rain3.jpg"];
-            backgroundImage = rainyImages[Math.floor(Math.random() * sunnyImages.length)];
+           const rainyImages = ["./images/rain1.jpg", "./images/rain2.jpg", "./images/rain3.jpg"];
+             backgroundImage = rainyImages[Math.floor(Math.random() * rainyImages.length)];
             audio.src = "./sounds/rain-sound.mp3";
         } else if (
             descriptionz.includes("thunderstorm") ||
             descriptionz.includes("thunderstorm with rain") ||
             descriptionz.includes("thunderstorm with heavy rain")
         ) {
-          const thunderImages = ["./images/thunder1.jpg", "./images/thunder2.jpg"];
-            backgroundImage = thunderImages[Math.floor(Math.random() * sunnyImages.length)];
+           const thunderImages = ["./images/thunder1.jpg", "./images/thunder2.jpg"];
+             backgroundImage = thunderImages[Math.floor(Math.random() * thunderImages.length)];
             audio.src = "./sounds/rnt.mp3";
         } else if (
             descriptionz.includes("haze") ||
@@ -240,8 +246,8 @@ const weather = {
             descriptionz.includes("smoke") ||
             descriptionz.includes("dust")
         ) {
-          const fogImages = ["./images/fog1.jpg", "./images/fog2.jpg"];
-            backgroundImage = fogImages[Math.floor(Math.random() * sunnyImages.length)];
+           const fogImages = ["./images/fog1.jpg", "./images/fog2.jpg"];
+             backgroundImage = fogImages[Math.floor(Math.random() * fogImages.length)];
          
             audio.src = "./sounds/wind.mp3";
         } else {
@@ -448,10 +454,10 @@ const weather = {
         const data2 = await resp2.json();
         const data3 = await resp3.json();
         const data4 = await resp4.json();
- console.log(data1)
- console.log(data2)
- console.log(data3)
- console.log(data4)
+  //  console.log(data1)
+  //  console.log(data2)
+  // console.log(data3)
+  //  console.log(data4)
         // Helper function to update weather display
         const updateWeatherDisplay = (data, prefix) => {
             const { weather: [{ icon, description }] } = data;
@@ -661,3 +667,4 @@ document.querySelector(".geolocation-btn").addEventListener("click", () => {
 });
 // Initially fetch weather data for the city "Kolkata" when the script is loaded
 weather.fetchWeather("Kolkata");
+weather.getalldata()
