@@ -27,6 +27,7 @@ body {
 
 .box:hover {
   transform: scale(1.02);
+  background-color: #032c5c;
 }
 .boxess{
   display: flex;
@@ -561,7 +562,7 @@ transform: translateY(-1px);
 }
 
 .geolocation-btn:hover .wave {
-border-color: #BBDEFB;
+border-color: #81a3be;
 }
 
 /* Active State */
@@ -691,17 +692,20 @@ color: white;
 }
 .audiobtns{
   display: flex;
+  align-items: center;
   gap: 30px;
   margin-top: 30px;
   margin-bottom:4px;
+  font-size: medium;
 }
+
 #Continuebutton{
  
   border:none;
   outline: none;
  height: 70px;
  width: 150px;
-  background-color: #1b1a1ae5;
+  background-color: #090909e5;
   color:white;
   transition: 0.2s ease-in-out;
   font-size: 18px;
@@ -712,14 +716,15 @@ color: white;
   outline: none;
   height: 70px;
   width: 150px;
-  background-color: #1b1a1ae5;
+  background-color: #040404e5;
   color:white;
   transition: 0.2s ease-in-out;
   font-size: 18px;
 }
+
 .vol{
-  height: 40px;
-  width: 40px;
+  height: 35px;
+  width: 30px;
 }
 .scards{
   color: white;
@@ -734,6 +739,7 @@ color: white;
   width: 300px;
   border-radius: 10%;
 }
+
 .savcards{
   display: flex;
   gap:30px;
@@ -747,4 +753,11 @@ color: white;
   width: 100px;
   height: 50px;
   margin-bottom: 30px;
+}
+
+#savbutton :hover
+{
+  background: linear-gradient(rgb(9, 73, 193),rgb(59, 4, 225));
+  font-size: 19px;
+  color: #222;
 }
