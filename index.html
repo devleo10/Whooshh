@@ -11,10 +11,14 @@
   <link rel="stylesheet" href="style.css">
   <link rel="shortcut icon" href="/images/png.png" type="image/x-icon">
   <script src="script.js" defer></script>
+  <script src="tabs.js"></script>
   <script src="
   https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js
   "></script>
   <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+  <script src="https://cdn.maptiler.com/maptiler-sdk-js/v3.0.1/maptiler-sdk.umd.min.js"></script>
+  <link href="https://cdn.maptiler.com/maptiler-sdk-js/v3.0.1/maptiler-sdk.css" rel="stylesheet" />
+  <script src="https://cdn.maptiler.com/maptiler-weather/v3.0.1/maptiler-weather.umd.min.js"></script>
 
 </head>
 
@@ -111,12 +115,42 @@
   </section>
 
 <section class="section2">
-  <div class="tempreturetrend" >
-    <canvas id="myChart"></canvas>
-    <div class="Chart-controls">
-      <button class="hourly-btn " >Hourly</button>
-      <button class="weekly-btn " >Weekly</button>
-      <button class="monthly-btn " >Monthly</button>
+  <div class="container">
+    <div class="tabs">
+      <h3>Temperature Trends</h3>
+      <h3>Wind Compass Visualization</h3>
+      <h3>Humidity and Pressure Trends</h3>
+      <div class="line"></div>
+    </div>
+    <div class="tab-content">
+      <div class="hidden active">
+        <h4>Temperature Trends</h4>
+        <div class="tempreturetrend">
+          <canvas id="myChart"></canvas>
+          <div class="Chart-controls">
+            <button class="hourly-btn">Hourly</button>
+            <button class="weekly-btn">Weekly</button>
+            <button class="monthly-btn">Monthly</button>
+          </div>
+        </div>
+      </div>
+      <div class="hidden">
+        <h4>Wind Compass Visualization</h4>
+        <div id="time-info">
+          <span id="time-text"></span>
+          <button id="play-pause-bt" class="button">Play 3600x</button>
+          <input type="range" id="time-slider" min="0" max="11" step="1">
+        </div>
+        <div id="variable-name">Wind</div>
+        <div id="pointer-data"></div>
+        <div id="map"></div>
+      </div>
+      <div class="hidden">
+        <h4>Humidity and Pressure Trends</h4>
+        <div class="humiditypressuretrends">
+          <canvas id="myChart1"></canvas>
+        </div>
+      </div>
     </div>
   </div>
 </section>

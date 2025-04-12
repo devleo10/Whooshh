@@ -23,15 +23,17 @@ const weather = {
 
           throw new Error("City not found!");
         }else{
-
+          return response.json();
         }
-        return response.json();
+
       })
       // Call the displayWeather method with the fetched data
       .then(data => {
         this.displayWeather(data);
         this.fetchForecast(data.coord.lat, data.coord.lon);
+        
       })
+      
       // Catch any errors that may occur during the fetch operation
       .catch(error => {
         console.error("Error fetching weather data:", error);
@@ -72,7 +74,6 @@ const weather = {
       .then(response => response.json())
       .then(data =>{ 
         this.displayForecast(data);
-
       this.hourlyData = data.hourly.slice(0, 24).map((hour) => ({
           time: new Date(hour.dt * 1000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}),
           temp:hour.temp,
@@ -80,10 +81,10 @@ const weather = {
 
       this.weeklyData = data.daily.slice(0,7).map((day)=>({
         date: new Date(day.dt * 1000).toLocaleTimeString([], {weekday: 'short'}),
-        temp:day.temp.day,
+        temp: day.temp.day,
+        humidity: day.humidity,
+        pressure: day.pressure,
       }) )
-
-
       const today = new Date();
       const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
       
@@ -93,17 +94,14 @@ const weather = {
       
       for (let i = 0; i < 12; i++) {
         const monthIndex = (today.getMonth() + i) % 12;
-        // Create a simple sinusoidal temperature variation throughout the year
-        // Northern hemisphere: warmest in July (6), coldest in January (0)
-        // Southern hemisphere: reverse pattern
         const seasonalOffset = Math.sin(((monthIndex - 6) / 12) * 2 * Math.PI) * 10;
         
-        this.monthlyData.push({
+      this.monthlyData.push({
           time: monthNames[monthIndex],
           temp: currentTemp + seasonalOffset,
         });
       }
-
+      HumidityPressureChart();
       console.log(this.weeklyData)
       console.log(this.hourlyData)
       console.log(this.monthlyData)
@@ -475,8 +473,6 @@ let temperatures;
 // Function to create a weather chart using Chart.js
 function weatherChart(data ,type) {
   const ctx = document.getElementById("myChart").getContext("2d");
-  // let labels , temperatures;
-  // console.log("Chart data:", data);
   if (type === "hourly") {
     labels = data.map((hour) => hour.time);
     temperatures = data.map((hour) => hour.temp);
@@ -520,3 +516,177 @@ function weatherChart(data ,type) {
     });
   }
 }
+
+let myChart1;
+function HumidityPressureChart() {
+  const ctx = document.getElementById("myChart1").getContext("2d");
+
+  const labels = weather.weeklyData.map((day) => day.date);
+  const humidityData = weather.weeklyData.map((day) => day.humidity);
+  const pressureData = weather.weeklyData.map((day) => day.pressure);
+
+  if (myChart1 && typeof myChart1.destroy === "function") {
+    myChart1.destroy();
+  }
+
+  myChart1 = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Humidity (%) ",
+          data: humidityData,
+          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          pointStyle: 'circle',
+          borderWidth: 1,
+          tension: 0,
+          yAxisID: 'y',
+        },
+        {
+          label: "Pressure (hPa)",
+          data: pressureData,
+          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          pointStyle: 'circle',
+          borderWidth: 1,
+          tension: 0,
+          yAxisID: 'y1',
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      interaction: {
+        mode: "index",
+        intersect: false,
+      },
+      animations: {
+        radius: {
+          duration: 400,
+          easing: 'linear',
+          loop: (context) => context.active
+        }},
+      stacked: false,
+      scales: {
+        y: {
+          type: "linear",
+          display: true,
+          position: "left",
+        },
+        y1: {
+          type: "linear",
+          display: true,
+          position: "right",
+
+          // grid line settings
+          grid: {
+            drawOnChartArea: false, // only want the grid lines for one axis to show up
+          },
+        },
+      },
+    },
+  });
+}
+
+
+
+const timeInfoContainer = document.getElementById("time-info");
+    const timeTextDiv = document.getElementById("time-text");
+    const timeSlider = document.getElementById("time-slider");
+    const playPauseButton = document.getElementById("play-pause-bt");
+    const pointerDataDiv = document.getElementById("pointer-data");
+    let pointerLngLat = null;
+
+    maptilersdk.config.apiKey = '7FGppJPzXOMC5e3hQHV5';
+
+    const map = new maptilersdk.Map({
+      container: document.getElementById('map'),
+      hash: true,
+      zoom: 2,
+      center: [0, 40],
+      style: maptilersdk.MapStyle.BACKDROP,
+      projectionControl: true
+    });
+
+    const layer = new maptilerweather.WindLayer();
+
+    map.on('load', function () {
+      // Darkening the water layer to make the land stand out
+      map.setPaintProperty("Water", 'fill-color', "rgba(0, 0, 0, 0.4)");
+      map.addLayer(layer, 'Water');
+    });
+
+    timeSlider.addEventListener("input", (evt) => {
+      layer.setAnimationTime(parseInt(timeSlider.value / 1000))
+    })
+
+    // Event called when all the datasource for the next days are added and ready.
+    // From now on, the layer nows the start and end dates.
+    layer.on("sourceReady", event => {
+      const startDate = layer.getAnimationStartDate();
+      const endDate = layer.getAnimationEndDate();
+      const currentDate = layer.getAnimationTimeDate();
+      refreshTime()
+
+      timeSlider.min = +startDate;
+      timeSlider.max = +endDate;
+      timeSlider.value = +currentDate;
+    })
+
+    // Called when the animation is progressing
+    layer.on("tick", event => {
+      refreshTime();
+      updatePointerValue(pointerLngLat);
+    })
+
+    // Called when the time is manually set
+    layer.on("animationTimeSet", event => {
+      refreshTime()
+    })
+
+    // When clicking on the play/pause
+    let isPlaying = false;
+    playPauseButton.addEventListener("click", () => {
+      if (isPlaying) {
+        layer.animateByFactor(0);
+        playPauseButton.innerText = "Play 3600x";
+      } else {
+        layer.animateByFactor(3600);
+        playPauseButton.innerText = "Pause";
+      }
+
+      isPlaying = !isPlaying;
+    })
+
+    // Update the date time display
+    function refreshTime() {
+      const d = layer.getAnimationTimeDate();
+      timeTextDiv.innerText = d.toString();
+      timeSlider.value = +d;
+    }
+
+    function updatePointerValue(lngLat) {
+      if (!lngLat) return;
+      pointerLngLat = lngLat;
+      const value = layer.pickAt(lngLat.lng, lngLat.lat);
+      if (!value) {
+        pointerDataDiv.innerText = "";
+        return;
+      }
+      pointerDataDiv.innerHTML = `<div id="arrow" style="transform: rotate(${value.directionAngle}deg);">↑</div>
+      ${value.compassDirection} ${value.speedKilometersPerHour.toFixed(1)} km/h`;
+    }
+
+    timeInfoContainer.addEventListener("mouseenter", () => {
+      pointerDataDiv.innerText = "";
+    })
+
+    map.on('mousemove', (e) => {
+      updatePointerValue(e.lngLat);
+    });
+
+const mapContainer = document.getElementById('map');
+mapContainer.style.width = '50%'; // Set a fixed width
+mapContainer.style.height = '350px'; // Set a fixed height
