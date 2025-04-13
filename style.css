@@ -1,12 +1,17 @@
 body {
+ /* Ensure the body takes up at least 100% height */
+  margin: 0;
+  font-family: 'Poppins', sans-serif;
+  font-family: 'Roboto Slab', serif;
+  overflow-x: hidden;
+  background: #222;
+}
+body  .section1{
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  min-height: 100vh; /* Ensure the body takes up at least 100% height */
-  margin: 0;
-  font-family: 'Poppins', sans-serif;
-  font-family: 'Roboto Slab', serif;
+  min-height: 100vh;
   background-image: url('https://source.unsplash.com/random/1600x900/?landscape');
   background-size: cover;
   background: linear-gradient(to bottom right, rgba(34, 34, 34, 0.8), rgba(0, 0, 0, 0.8));
@@ -695,6 +700,210 @@ color: white;
     padding: 10px; 
   }
 }
+.section2{
+  padding:0;
+}
+
+.humiditypressuretrends{
+  margin: auto;
+  padding:19px 22px 63px 53px;
+  align-items: center;
+  width:750px;
+  height:350px;
+  border:2px solid black !important;
+
+}
+
+.tempreturetrend{
+  margin: auto;
+  padding:19px 22px 63px 53px;
+  align-items: center;
+  width:750px;
+  height:350px;
+  border:2px solid black !important;
+
+}
+.section2 .Chart-controls .weekly-btn{
+  border-radius: 20px;  
+  padding:6px;  
+  background-color: rgb(169, 169, 244);
+}
+.section2 .Chart-controls .hourly-btn{
+  border-radius: 20px;  
+  padding:6px;  
+  background-color: rgb(169, 169, 244);
+}
+.section2 .Chart-controls .monthly-btn{
+  border-radius: 20px;  
+  padding:6px;  
+  background-color: rgb(169, 169, 244);
+}
+
+.section2 .Chart-controls .hourly-btn:hover{
+  background-color: #3187f06b;
+  cursor: pointer;
+}
+.section2 .Chart-controls .monthly-btn:hover{
+  background-color: #3187f06b;
+  cursor: pointer;
+}
+.section2 .Chart-controls .weekly-btn:hover{
+  background-color: #3187f06b;
+  cursor: pointer;
+}
+
+.section2 .container {
+  /* width: 80vmin; */
+  background-color: #ffffff;
+  /* box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); */
+
+}
+.section2 .container .tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  position: relative;
+  border-bottom:1px solid #1c1a1a48;
+  background: linear-gradient(309deg, rgb(44, 222, 242) 0.00%, rgb(156, 43, 171) 0.28%, rgb(39, 43, 44) 93.96%);
+}
+h3 {
+  /* background-color: #e4e9fd; */
+  text-align: center;
+  padding:  0;
+  cursor: pointer;
+  font-weight: 600;
+}
+.tab-content {
+  padding: 50px 40px;
+  background: linear-gradient(309deg, rgb(44, 222, 242) 0.00%, rgb(156, 43, 171) 0.28%, rgb(39, 43, 44) 93.96%);
+}
+.tab-content h4 {
+  font-size: 28px;
+  margin-bottom: 20px;
+  color: #797cad;
+  font-weight: 600;
+}
+.tab-content p {
+  text-align: justify;
+  /* line-height: 1.9; */
+  letter-spacing: 0.4px;
+  color: #676a8b;
+}
+
+.tab-content .hidden {
+  display: none;
+}
+.tab-content .hidden.active {
+  display: block;
+}
+
+/* .section2 .tab-content .hidden {
+  display: block;
+} */
+.tabs .active {
+
+  color: #d1b8d2;
+}
+
+
+.line{
+  position: absolute;
+  bottom:0;
+  left: 0;
+  width:  509px;
+  height: 5px;
+  background-color: purple;
+  transition: all .3s ease-in-out;
+}
+
+/* body { margin: 0; padding: 0; font-family: sans-serif; } */
+  #map {   
+      width: 50%; 
+      background: 
+#333359; 
+      position: relative;
+      margin: auto;
+      border-radius: 20px;
+      box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+}
+#time-info {
+  width: 60vw;
+  bottom: 0;
+  z-index: 1;
+  margin: 10px;
+  text-shadow: 0px 0px 5px 
+black;
+  color: 
+white;
+  font-size: 20px;
+  font-weight: 500;
+  text-align: center;
+  left: 0;
+  right: 0;
+  margin: auto;
+  padding: 20px;
+}
+
+#time-slider {
+  width: 100%;
+  height: fit-content;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  filter: drop-shadow(0 0 7px 
+#000a);
+  margin-top: 10px;
+}
+
+#pointer-data {
+  z-index: 1;
+  font-size: 20px;
+  font-weight: 900;
+  margin: 27px 0px 0px 10px;
+  color: 
+#fff;
+  text-shadow: 0px 0px 10px 
+#0007;
+  display: inline-flex;
+  align-items: center;
+  position: absolute;
+}
+
+#variable-name {
+  position: absolute;
+  z-index: 1;
+  font-size: 20px;
+  font-weight: 500;
+  margin: 5px 0px 0px 10px;
+  color: 
+#fff;
+  text-shadow: 0px 0px 10px 
+#0007;
+}
+
+#arrow {
+  width: fit-content;
+  height: fit-content;
+  background: 
+#fff;
+  color: 
+#000;;
+  width: 20px;
+  font-size: 20px;
+  height: 20px;
+  text-align: center;
+  line-height: 20px;
+  padding: 5px;
+  border-radius: 50%;
+  margin: 0px 10px;
+  border: dotted 
+red 5px;
+
+}
+#map canvas{
+  position: relative;
+  height: 54vh;
+}
+
 
 @media (max-width: 768px) {
   .scards {

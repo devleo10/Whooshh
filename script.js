@@ -25,15 +25,17 @@ const weather = {
 
           throw new Error("City not found!");
         }else{
-
+          return response.json();
         }
-        return response.json();
+
       })
       // Call the displayWeather method with the fetched data
       .then(data => {
         this.displayWeather(data);
         this.fetchForecast(data.coord.lat, data.coord.lon);
+        
       })
+      
       // Catch any errors that may occur during the fetch operation
       .catch(error => {
         console.error("Error fetching weather data:", error);
@@ -69,20 +71,56 @@ const weather = {
   },
 
    fetchForecast: function(lat, lon) {
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,hourly,curremt&appid=5796abbde9106b7da4febfae8c44c232`)
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely&appid=5796abbde9106b7da4febfae8c44c232`)
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely&appid=5796abbde9106b7da4febfae8c44c232`)
       .then(response => response.json())
-      .then(data => this.displayForecast(data))
+      .then(data =>{ 
+        this.displayForecast(data);
+      this.hourlyData = data.hourly.slice(0, 24).map((hour) => ({
+          time: new Date(hour.dt * 1000).toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'}),
+          temp:hour.temp,
+        }));
+
+      this.weeklyData = data.daily.slice(0,7).map((day)=>({
+        date: new Date(day.dt * 1000).toLocaleTimeString([], {weekday: 'short'}),
+        temp: day.temp.day,
+        humidity: day.humidity,
+        pressure: day.pressure,
+      }) )
+      const today = new Date();
+      const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+      
+      // Use the current temperature as a base and create a simple annual temperature curve
+      const currentTemp = data.current.temp;
+      this.monthlyData = [];
+      
+      for (let i = 0; i < 12; i++) {
+        const monthIndex = (today.getMonth() + i) % 12;
+        const seasonalOffset = Math.sin(((monthIndex - 6) / 12) * 2 * Math.PI) * 10;
+        
+      this.monthlyData.push({
+          time: monthNames[monthIndex],
+          temp: currentTemp + seasonalOffset,
+        });
+      }
+      // weatherChart(this.hourlyData, "hourly");
+      HumidityPressureChart();
+      console.log(this.weeklyData)
+      console.log(this.hourlyData)
+      console.log(this.monthlyData)
+   })
       .catch(error => console.error("Error fetching forecast:", error));
   },
    fetchCForecast :function(lat,lon){
-    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,hourly,curremt&appid=5796abbde9106b7da4febfae8c44c232`)
+    fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&units=metric&exclude=minutely,current&appid=5796abbde9106b7da4febfae8c44c232`)
     .then(response => response.json())
       .then(data => this.displayCForecast(data))
       .catch(error => console.error("Error fetching forecast:", error));
    },
   displayForecast: function(data) {
     const daysOrder = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  
+    
+    
     this.forecastData = data.daily.slice(1).map(day => {
       const date = new Date(day.dt * 1000);
       return {
@@ -559,7 +597,9 @@ document.getElementById("Continuebutton").addEventListener("click", function(){
 document.querySelector(".search-bar").addEventListener("keyup", function(event) {
   // Check if the pressed key is Enter, and if true, call the search method
   if (event.key === "Enter") {
+    const city = document.querySelector(".search-bar").value;
     weather.search();
+    weather.fetchWeather(city);
   }
 });
 document.querySelector(".unit-toggle").addEventListener("click", function() {
@@ -605,5 +645,293 @@ document.querySelector(".geolocation-btn").addEventListener("click", () => {
   }
 });
 // Initially fetch weather data for the city "Kolkata" when the script is loaded
+
 weather.fetchWeather("Kolkata");
 weather.getalldata();
+
+
+document.querySelector(".hourly-btn").addEventListener("click", function () {
+  // const city = document.querySelector(".search-bar").value || "Kolkata";
+  weatherChart(weather.hourlyData , "hourly" );
+
+});
+
+document.querySelector(".weekly-btn").addEventListener("click", function () {
+
+   weatherChart(weather.weeklyData ,"weekly"); 
+
+});
+
+document.querySelector(".monthly-btn").addEventListener("click", function () {
+  weatherChart(weather.monthlyData, "monthly");
+})
+
+let myChart;
+let labels;
+let temperatures;
+// Function to create a weather chart using Chart.js
+function weatherChart(data ,type) {
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    console.log("No data available for chart yet");
+    return;
+  }
+
+  const ctx = document.getElementById("myChart").getContext("2d");
+  const city = document.querySelector(".search-bar").value || "Kolkata";
+  if (type === "hourly") {
+    labels = data.map((hour) => hour.time);
+    temperatures = data.map((hour) => hour.temp);
+  } else if (type === "weekly") {
+    labels = data.map((day) => day.date);
+    temperatures = data.map((day) => day.temp);
+  } 
+  else if (type === "monthly") {
+    labels = data.map((month) => month.time);
+    temperatures = data.map((month) => month.temp);
+  }
+
+  const maxTemp = Math.max(...temperatures);
+  const maxTempIndex = temperatures.indexOf(maxTemp);
+
+  const pointBackgroundColors = temperatures.map((temp, index) => 
+    index === maxTempIndex ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)'
+  );
+  
+  const pointRadius = temperatures.map((temp, index) => 
+    index === maxTempIndex ? 6 : 3
+  );
+
+  if (myChart) {
+    myChart.data.labels = labels;
+    myChart.data.datasets[0].data = temperatures;
+    myChart.data.datasets[0].pointBackgroundColor = pointBackgroundColors;
+    myChart.data.datasets[0].pointRadius = pointRadius;
+    myChart.data.datasets[0].label = `Temperature (°C) of ${city}`;
+    myChart.update();
+  } else {
+    myChart = new Chart(ctx, {
+      type: "line",
+      data: {
+        labels: labels ,
+        datasets: [
+          {
+            label: `Temperature (°C) of ${city}`,
+            data: temperatures ,
+            backgroundColor:"rgba(16, 167, 255, 0.2)",
+            borderColor: "rgb(107, 255, 171)",
+            pointBackgroundColor: pointBackgroundColors,
+            pointBorderColor: pointBackgroundColors,
+            pointRadius: pointRadius,
+            borderWidth: 1,
+            tension: 0,
+          },
+        ],
+      },
+      options: {
+        maintainAspectRatio: false,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += context.parsed.y;
+                
+                // Add special marker for max temperature
+                if (context.dataIndex === maxTempIndex) {
+                  label += ' (Highest)';
+                }
+                
+                return label;
+              }
+            }
+          }
+        },
+        scales: {
+
+          y: {
+            beginAtZero: true,
+          },
+        },
+      },
+    });
+  }
+}
+
+let myChart1;
+function HumidityPressureChart() {
+  const ctx = document.getElementById("myChart1").getContext("2d");
+
+  const labels = weather.weeklyData.map((day) => day.date);
+  const humidityData = weather.weeklyData.map((day) => day.humidity);
+  const pressureData = weather.weeklyData.map((day) => day.pressure);
+
+  if (myChart1 && typeof myChart1.destroy === "function") {
+    myChart1.destroy();
+  }
+
+  myChart1 = new Chart(ctx, {
+    type: "line",
+    data: {
+      labels: labels,
+      datasets: [
+        {
+          label: "Humidity (%) ",
+          data: humidityData,
+          backgroundColor: "rgba(54, 162, 235, 0.2)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          pointStyle: 'circle',
+          borderWidth: 1,
+          tension: 0,
+          yAxisID: 'y',
+        },
+        {
+          label: "Pressure (hPa)",
+          data: pressureData,
+          backgroundColor: "rgba(117, 48, 255, 0.62)",
+          borderColor: "rgb(174, 255, 0)",
+          pointStyle: 'circle',
+          pointBackgroundColor: "rgb(119, 35, 255)",
+          borderWidth: 1,
+          tension: 0,
+          pointBorderColor: 'rgb(211, 211, 211)',
+          yAxisID: 'y1',
+        },
+      ],
+    },
+    options: {
+      maintainAspectRatio: false,
+      interaction: {
+        mode: "index",
+        intersect: false,
+      },
+      animations: {
+        radius: {
+          duration: 400,
+          easing: 'linear',
+          loop: (context) => context.active
+        }},
+      stacked: false,
+      scales: {
+        y: {
+          type: "linear",
+          display: true,
+          position: "left",
+        },
+        y1: {
+          type: "linear",
+          display: true,
+          position: "right",
+
+          // grid line settings
+          grid: {
+            drawOnChartArea: false, // only want the grid lines for one axis to show up
+          },
+        },
+      },
+    },
+  });
+}
+
+
+
+const timeInfoContainer = document.getElementById("time-info");
+    const timeTextDiv = document.getElementById("time-text");
+    const timeSlider = document.getElementById("time-slider");
+    const playPauseButton = document.getElementById("play-pause-bt");
+    const pointerDataDiv = document.getElementById("pointer-data");
+    let pointerLngLat = null;
+
+    maptilersdk.config.apiKey = '7FGppJPzXOMC5e3hQHV5';
+
+    const map = new maptilersdk.Map({
+      container: document.getElementById('map'),
+      hash: true,
+      zoom: 2,
+      center: [0, 40],
+      style: maptilersdk.MapStyle.BACKDROP,
+      projectionControl: true
+    });
+
+    const layer = new maptilerweather.WindLayer();
+
+    map.on('load', function () {
+      // Darkening the water layer to make the land stand out
+      map.setPaintProperty("Water", 'fill-color', "rgba(0, 0, 0, 0.4)");
+      map.addLayer(layer, 'Water');
+    });
+
+    timeSlider.addEventListener("input", (evt) => {
+      layer.setAnimationTime(parseInt(timeSlider.value / 1000))
+    })
+
+    // Event called when all the datasource for the next days are added and ready.
+    // From now on, the layer nows the start and end dates.
+    layer.on("sourceReady", event => {
+      const startDate = layer.getAnimationStartDate();
+      const endDate = layer.getAnimationEndDate();
+      const currentDate = layer.getAnimationTimeDate();
+      refreshTime()
+
+      timeSlider.min = +startDate;
+      timeSlider.max = +endDate;
+      timeSlider.value = +currentDate;
+    })
+
+    // Called when the animation is progressing
+    layer.on("tick", event => {
+      refreshTime();
+      updatePointerValue(pointerLngLat);
+    })
+
+    // Called when the time is manually set
+    layer.on("animationTimeSet", event => {
+      refreshTime()
+    })
+
+    // When clicking on the play/pause
+    let isPlaying = false;
+    playPauseButton.addEventListener("click", () => {
+      if (isPlaying) {
+        layer.animateByFactor(0);
+        playPauseButton.innerText = "Play 3600x";
+      } else {
+        layer.animateByFactor(3600);
+        playPauseButton.innerText = "Pause";
+      }
+
+      isPlaying = !isPlaying;
+    })
+
+    // Update the date time display
+    function refreshTime() {
+      const d = layer.getAnimationTimeDate();
+      timeTextDiv.innerText = d.toString();
+      timeSlider.value = +d;
+    }
+
+    function updatePointerValue(lngLat) {
+      if (!lngLat) return;
+      pointerLngLat = lngLat;
+      const value = layer.pickAt(lngLat.lng, lngLat.lat);
+      if (!value) {
+        pointerDataDiv.innerText = "";
+        return;
+      }
+      pointerDataDiv.innerHTML = `<div id="arrow" style="transform: rotate(${value.directionAngle}deg);">↑</div>
+      ${value.compassDirection} ${value.speedKilometersPerHour.toFixed(1)} km/h`;
+    }
+
+    timeInfoContainer.addEventListener("mouseenter", () => {
+      pointerDataDiv.innerText = "";
+    })
+
+    map.on('mousemove', (e) => {
+      updatePointerValue(e.lngLat);
+    });
+
+const mapContainer = document.getElementById('map');
+mapContainer.style.width = '50%'; // Set a fixed width
+mapContainer.style.height = '350px'; // Set a fixed height
