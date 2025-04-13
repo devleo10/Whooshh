@@ -125,12 +125,12 @@
     <div class="tab-content">
       <div class="hidden active">
         <h4>Temperature Trends</h4>
-        <div class="tempreturetrend">
-          <canvas id="myChart"></canvas>
+        <div class="tempreturetrend" style="background-color: rgb(28, 24, 65);">
+          <canvas id="myChart" ></canvas>
           <div class="Chart-controls">
             <button class="hourly-btn">Hourly</button>
-            <button class="weekly-btn">Weekly</button>
-            <button class="monthly-btn">Monthly</button>
+            <button class="weekly-btn" >Weekly</button>
+            <button class="monthly-btn" >Monthly</button>
           </div>
         </div>
       </div>
@@ -141,14 +141,17 @@
           <button id="play-pause-bt" class="button">Play 3600x</button>
           <input type="range" id="time-slider" min="0" max="11" step="1">
         </div>
-        <div id="variable-name">Wind</div>
-        <div id="pointer-data"></div>
-        <div id="map"></div>
+
+
+        <div id="map">
+          <div id="variable-name">Wind</div>
+          <div id="pointer-data"></div>
+        </div>
       </div>
       <div class="hidden">
         <h4>Humidity and Pressure Trends</h4>
-        <div class="humiditypressuretrends">
-          <canvas id="myChart1"></canvas>
+        <div class="humiditypressuretrends" style="background-color: rgb(28, 24, 65);">
+          <canvas id="myChart1" ></canvas>
         </div>
       </div>
     </div>

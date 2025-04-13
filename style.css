@@ -617,9 +617,6 @@ color: white;
   height: 50px;
 }
 .section2{
-  height: 100vh;
-  width: 100vw;
-  background-color: white;
   padding:0;
 }
 
@@ -642,17 +639,47 @@ color: white;
   border:2px solid black !important;
 
 }
+.section2 .Chart-controls .weekly-btn{
+  border-radius: 20px;  
+  padding:6px;  
+  background-color: rgb(169, 169, 244);
+}
+.section2 .Chart-controls .hourly-btn{
+  border-radius: 20px;  
+  padding:6px;  
+  background-color: rgb(169, 169, 244);
+}
+.section2 .Chart-controls .monthly-btn{
+  border-radius: 20px;  
+  padding:6px;  
+  background-color: rgb(169, 169, 244);
+}
+
+.section2 .Chart-controls .hourly-btn:hover{
+  background-color: #3187f06b;
+  cursor: pointer;
+}
+.section2 .Chart-controls .monthly-btn:hover{
+  background-color: #3187f06b;
+  cursor: pointer;
+}
+.section2 .Chart-controls .weekly-btn:hover{
+  background-color: #3187f06b;
+  cursor: pointer;
+}
 
 .section2 .container {
   /* width: 80vmin; */
   background-color: #ffffff;
   /* box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2); */
+
 }
 .section2 .container .tabs {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   position: relative;
   border-bottom:1px solid #1c1a1a48;
+  background: linear-gradient(309deg, rgb(44, 222, 242) 0.00%, rgb(156, 43, 171) 0.28%, rgb(39, 43, 44) 93.96%);
 }
 h3 {
   /* background-color: #e4e9fd; */
@@ -662,20 +689,20 @@ h3 {
   font-weight: 600;
 }
 .tab-content {
-  background-color: #ffffff;
   padding: 50px 40px;
+  background: linear-gradient(309deg, rgb(44, 222, 242) 0.00%, rgb(156, 43, 171) 0.28%, rgb(39, 43, 44) 93.96%);
 }
 .tab-content h4 {
   font-size: 28px;
   margin-bottom: 20px;
-  color: #000224;
+  color: #797cad;
   font-weight: 600;
 }
 .tab-content p {
   text-align: justify;
   /* line-height: 1.9; */
   letter-spacing: 0.4px;
-  color: #202238;
+  color: #676a8b;
 }
 
 .tab-content .hidden {
@@ -689,8 +716,8 @@ h3 {
   display: block;
 } */
 .tabs .active {
-  background-color: #ffffff;
-  color: #595c87;
+
+  color: #d1b8d2;
 }
 
 
@@ -705,8 +732,15 @@ h3 {
 }
 
 /* body { margin: 0; padding: 0; font-family: sans-serif; } */
-    #map {   width: 50%; background: 
-#333359; }
+  #map {   
+      width: 50%; 
+      background: 
+#333359; 
+      position: relative;
+      margin: auto;
+      border-radius: 20px;
+      box-shadow: 0px 4px 10px rgba(255, 255, 255, 0.2);
+}
 #time-info {
   width: 60vw;
   bottom: 0;
@@ -747,9 +781,11 @@ white;
 #0007;
   display: inline-flex;
   align-items: center;
+  position: absolute;
 }
 
 #variable-name {
+  position: absolute;
   z-index: 1;
   font-size: 20px;
   font-weight: 500;

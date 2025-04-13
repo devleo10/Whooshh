@@ -101,6 +101,7 @@ const weather = {
           temp: currentTemp + seasonalOffset,
         });
       }
+      // weatherChart(this.hourlyData, "hourly");
       HumidityPressureChart();
       console.log(this.weeklyData)
       console.log(this.hourlyData)
@@ -450,17 +451,19 @@ document.querySelector(".geolocation-btn").addEventListener("click", () => {
   }
 });
 // Initially fetch weather data for the city "Kolkata" when the script is loaded
+
 weather.fetchWeather("Kolkata");
 
 document.querySelector(".hourly-btn").addEventListener("click", function () {
-  weatherChart(weather.hourlyData , "hourly");
-  console.log("Hourly data:", weatherChart(weather.hourlyData));
+  // const city = document.querySelector(".search-bar").value || "Kolkata";
+  weatherChart(weather.hourlyData , "hourly" );
+
 });
 
 document.querySelector(".weekly-btn").addEventListener("click", function () {
 
    weatherChart(weather.weeklyData ,"weekly"); 
-    console.log("Weekly data:", weatherChart(weather.weeklyData));
+
 });
 
 document.querySelector(".monthly-btn").addEventListener("click", function () {
@@ -472,7 +475,13 @@ let labels;
 let temperatures;
 // Function to create a weather chart using Chart.js
 function weatherChart(data ,type) {
+  if (!data || !Array.isArray(data) || data.length === 0) {
+    console.log("No data available for chart yet");
+    return;
+  }
+
   const ctx = document.getElementById("myChart").getContext("2d");
+  const city = document.querySelector(".search-bar").value || "Kolkata";
   if (type === "hourly") {
     labels = data.map((hour) => hour.time);
     temperatures = data.map((hour) => hour.temp);
@@ -484,9 +493,24 @@ function weatherChart(data ,type) {
     labels = data.map((month) => month.time);
     temperatures = data.map((month) => month.temp);
   }
+
+  const maxTemp = Math.max(...temperatures);
+  const maxTempIndex = temperatures.indexOf(maxTemp);
+
+  const pointBackgroundColors = temperatures.map((temp, index) => 
+    index === maxTempIndex ? 'rgba(255, 99, 132, 1)' : 'rgba(54, 162, 235, 1)'
+  );
+  
+  const pointRadius = temperatures.map((temp, index) => 
+    index === maxTempIndex ? 6 : 3
+  );
+
   if (myChart) {
     myChart.data.labels = labels;
     myChart.data.datasets[0].data = temperatures;
+    myChart.data.datasets[0].pointBackgroundColor = pointBackgroundColors;
+    myChart.data.datasets[0].pointRadius = pointRadius;
+    myChart.data.datasets[0].label = `Temperature (°C) of ${city}`;
     myChart.update();
   } else {
     myChart = new Chart(ctx, {
@@ -495,10 +519,13 @@ function weatherChart(data ,type) {
         labels: labels ,
         datasets: [
           {
-            label: "Temperature (°C)",
-            data: temperatures,
-            backgroundColor: "rgba(54, 162, 235, 0.2)",
-            borderColor: "rgba(54, 162, 235, 1)",
+            label: `Temperature (°C) of ${city}`,
+            data: temperatures ,
+            backgroundColor:"rgba(16, 167, 255, 0.2)",
+            borderColor: "rgb(107, 255, 171)",
+            pointBackgroundColor: pointBackgroundColors,
+            pointBorderColor: pointBackgroundColors,
+            pointRadius: pointRadius,
             borderWidth: 1,
             tension: 0,
           },
@@ -506,6 +533,26 @@ function weatherChart(data ,type) {
       },
       options: {
         maintainAspectRatio: false,
+        plugins: {
+          tooltip: {
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) {
+                  label += ': ';
+                }
+                label += context.parsed.y;
+                
+                // Add special marker for max temperature
+                if (context.dataIndex === maxTempIndex) {
+                  label += ' (Highest)';
+                }
+                
+                return label;
+              }
+            }
+          }
+        },
         scales: {
 
           y: {
@@ -547,11 +594,13 @@ function HumidityPressureChart() {
         {
           label: "Pressure (hPa)",
           data: pressureData,
-          backgroundColor: "rgba(54, 162, 235, 0.2)",
-          borderColor: "rgba(54, 162, 235, 1)",
+          backgroundColor: "rgba(117, 48, 255, 0.62)",
+          borderColor: "rgb(174, 255, 0)",
           pointStyle: 'circle',
+          pointBackgroundColor: "rgb(119, 35, 255)",
           borderWidth: 1,
           tension: 0,
+          pointBorderColor: 'rgb(211, 211, 211)',
           yAxisID: 'y1',
         },
       ],
