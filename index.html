@@ -24,8 +24,19 @@
 
 <body>
   <section class="section1">
+  <div class="sound"></div>
+  <div class="audiobtns">
+    <button id="Continuebutton">continue audio</button>
+    <button id="Stopbutton">Stop audio</button>
+  </div>
+  <div style="margin-top: 40px;display: flex;">
+    <label for="volumeSlider"><img src="./sounds/medium-volume.png" class="vol"></label>
+<input type="range" id="volumeSlider" min="0" max="100" value="100">
+</div>
   <div class="boxess">
+    
   <div class="box">
+    <button id="savbutton">Save</button>
     <div class="search">
       <input type="text" class="search-bar" placeholder="Search">
       <button class="search-button"><svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 24 24" height="1.3em"
@@ -50,7 +61,7 @@
         </button>
       </div>
     <div class="weather">
-      <h2 class="city">Weather in Kolkata</h2>
+      <h2 class="city" id="maincity">Weather in Kolkata</h2>
       <div class="temp-container">
         <h1 class="temp">19°C</h1>
         <label class="unit-toggle">
@@ -104,6 +115,61 @@
   <button class="cbutton" id="compb">Compare</button>
   
 </div>
+<div class="savcards">
+  
+</div>
+<div class="scards">
+  <diva class="bgcard" >
+  <div>
+    <img src=" " alt="image not-found" id="bicon">
+    </div>
+ <div>
+  <h1>Banglore</h1>
+  <h2 id="btemp">temp:</h2>
+  <div id="bdes">Clear</div>
+  <div id="bhum">Humidity: --%</div>
+  <div id="bwind">Wind speed: -- km/h</div>
+</div>
+ </diva>
+ <diva class="bgcard" >
+  <div>
+    <img src=" " alt="image not-found" id="hicon">
+    </div>
+ <div>
+  <h1>Hyderabad</h1>
+  <h2 id="htemp">temp:</h2>
+  <div id="hdes">Clear</div>
+  <div id="hhum">Humidity: --%</div>
+  <div id="hwind">Wind speed: -- km/h</div>
+</div>
+ </diva>
+ <diva class="bgcard" >
+  <div>
+    <img src=" " alt="image not-found" id="micon">
+    </div>
+ <div>
+  <h1>Mumbai</h1>
+  <h2 id="mtemp">temp:</h2>
+  <div id="mdes">Clear</div>
+  <div id="mhum">Humidity: --%</div>
+  <div id="mwind">Wind speed: -- km/h</div>
+</div>
+ </diva>
+ <diva class="bgcard" >
+  <div>
+    <img src=" " alt="image not-found " id="dicon">
+    </div>
+ <div>
+  <h1>New Delhi</h1>
+  <h2 id="dtemp">temp:</h2>
+  <div id="ddes">Clear</div>
+  <div id="dhum">Humidity: --%</div>
+  <div id="dwind">Wind speed: -- km/h</div>
+</div>
+ </diva>
+</div>
+</div>
+ </div>
   <div class="error-container">
     <div class="error-box">
         <img src="/images/not-found.png" alt="Not Found" class="error-icon">
@@ -111,6 +177,7 @@
         <input type="text" class="search-bar retry-search" placeholder="Enter city name..." autofocus>
         <button class="retry-button">Search</button>
     </div>
+   
   </div>
   </section>
 
