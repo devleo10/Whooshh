@@ -25,7 +25,14 @@ body {
   box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.5);
 }
 
+
+.box:hover {
+  transform: scale(1.02);
+  background-color: #032c5c;
+}
+
 .boxess, .cbox {
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -183,7 +190,6 @@ input.ctext{
   font-size: 100%;
   margin-right: auto;
 }
-feature/gps-location
 
 input.search-bar::placeholder {
 color: rgba(255, 255, 255, 0.7);
@@ -611,7 +617,7 @@ transform: translateY(-1px);
 }
 
 .geolocation-btn:hover .wave {
-border-color: #BBDEFB;
+border-color: #81a3be;
 }
 
 /* Active State */
@@ -699,9 +705,7 @@ color: white;
     flex-direction: column; /* Stacks cards vertically */
     align-items: center; 
   }
-  .bgcard {
-    width: 90%; /* Expands to fit the screen */
-  }
+  
   body {
     height: auto;
     padding: 20px;
@@ -764,17 +768,20 @@ color: white;
 }
 .audiobtns{
   display: flex;
+  align-items: center;
   gap: 30px;
   margin-top: 30px;
   margin-bottom:4px;
+  font-size: medium;
 }
+
 #Continuebutton{
  
   border:none;
   outline: none;
  height: 70px;
  width: 150px;
-  background-color: #1b1a1ae5;
+  background-color: #090909e5;
   color:white;
   transition: 0.2s ease-in-out;
   font-size: 18px;
@@ -785,14 +792,15 @@ color: white;
   outline: none;
   height: 70px;
   width: 150px;
-  background-color: #1b1a1ae5;
+  background-color: #040404e5;
   color:white;
   transition: 0.2s ease-in-out;
   font-size: 18px;
 }
+
 .vol{
-  height: 40px;
-  width: 40px;
+  height: 35px;
+  width: 30px;
 }
 .scards{
   color: white;
@@ -807,6 +815,7 @@ color: white;
   width: 300px;
   border-radius: 10%;
 }
+
 .savcards{
   display: flex;
   gap:30px;
@@ -821,3 +830,4 @@ color: white;
   height: 50px;
   margin-bottom: 30px;
 }
+
