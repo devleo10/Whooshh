@@ -30,7 +30,6 @@ body {
   transform: scale(1.02);
   background-color: #032c5c;
 }
-.boxess{
 
 .boxess, .cbox {
 
@@ -191,7 +190,6 @@ input.ctext{
   font-size: 100%;
   margin-right: auto;
 }
-feature/gps-location
 
 input.search-bar::placeholder {
 color: rgba(255, 255, 255, 0.7);
@@ -707,9 +705,7 @@ color: white;
     flex-direction: column; /* Stacks cards vertically */
     align-items: center; 
   }
-  .bgcard {
-    width: 90%; /* Expands to fit the screen */
-  }
+  
   body {
     height: auto;
     padding: 20px;
@@ -835,9 +831,3 @@ color: white;
   margin-bottom: 30px;
 }
 
-#savbutton :hover
-{
-  background: linear-gradient(rgb(9, 73, 193),rgb(59, 4, 225));
-  font-size: 19px;
-  color: #222;
-}
